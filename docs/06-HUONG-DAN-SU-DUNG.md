@@ -76,7 +76,7 @@ Hoặc nhờ quản trị bấm **Đặt lại mật khẩu** cho bạn (xem m�
 Bấm vào **tên của bạn** (góc trên bên phải) → trang **Tài khoản của tôi** → nhập mật khẩu hiện tại và mật khẩu mới → **Đổi mật khẩu**.
 
 ### Đăng xuất
-Bấm **Đăng xuất** ở góc trên bên phải. Dùng máy chung thì luôn đăng xuất khi xong việc.
+Máy tính: bấm **Đăng xuất** ở góc trên bên phải. Điện thoại: nút **Thêm** ở menu dưới → **Đăng xuất**. Dùng máy chung thì luôn đăng xuất khi xong việc.
 
 ---
 
@@ -91,7 +91,7 @@ Bấm **Đăng xuất** ở góc trên bên phải. Dùng máy chung thì luôn 
 | **Báo cáo** | ông chủ, quản trị | *(giai đoạn 7)* |
 | **Người dùng** | ông chủ, quản trị | tạo và quản lý tài khoản |
 
-Trên điện thoại, menu nằm ở **dưới cùng màn hình**.
+Trên điện thoại và máy tính bảng, menu nằm ở **dưới cùng màn hình**: 4 mục chính và nút **Thêm** (☰) — bấm vào để thấy Báo cáo, Người dùng, **Tài khoản của tôi** và **Đăng xuất**.
 
 ---
 

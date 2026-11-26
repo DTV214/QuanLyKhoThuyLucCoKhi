@@ -26,10 +26,11 @@ export function UserMenu({ user }: { user: CurrentUser }) {
           {ROLE_LABEL[user.role]}
         </Badge>
       </Link>
-      <form action={signOut}>
+      {/* Điện thoại / máy tính bảng: Đăng xuất nằm trong nút "Thêm" ở menu dưới */}
+      <form action={signOut} className="hidden lg:block">
         <Button type="submit" variant="outline" size="lg">
           <LogOut />
-          <span className="hidden sm:inline">Đăng xuất</span>
+          Đăng xuất
         </Button>
       </form>
     </div>

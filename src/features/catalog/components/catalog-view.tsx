@@ -7,6 +7,7 @@ import { FormDialog, type FieldDef } from "@/components/common/form-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { SCROLL_ROW } from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
 import { deleteCatalogItem, saveCategory, saveLookup } from "../actions";
 import type { Catalog, CatalogRow, CategoryRow } from "../queries";
@@ -124,7 +125,7 @@ export function CatalogView({ catalog, canDelete }: { catalog: Catalog; canDelet
 
   return (
     <div className="space-y-5">
-      <div className="flex flex-wrap gap-2" role="tablist">
+      <div className={SCROLL_ROW} role="tablist">
         {TABS.map((t) => (
           <button
             key={t.key}
@@ -132,7 +133,7 @@ export function CatalogView({ catalog, canDelete }: { catalog: Catalog; canDelet
             aria-selected={tab === t.key}
             onClick={() => setTab(t.key)}
             className={cn(
-              "h-12 rounded-xl border px-5 text-base font-medium transition-colors",
+              "h-12 shrink-0 rounded-xl border px-5 text-base font-medium whitespace-nowrap transition-colors",
               tab === t.key ? "border-primary bg-primary text-primary-foreground" : "bg-background hover:bg-muted",
             )}
           >
@@ -145,13 +146,14 @@ export function CatalogView({ catalog, canDelete }: { catalog: Catalog; canDelet
       <div className="flex justify-end">
         <Button
           size="xl"
+          className="w-full sm:w-auto"
           onClick={() => (tab === "categories" ? openCategory() : setDialog({ kind: "lookup", table: tab }))}
         >
           <Plus /> Thêm {tab === "categories" ? "loại hàng" : LOOKUPS[tab].singular}
         </Button>
       </div>
 
-      <div className="overflow-x-auto rounded-2xl border bg-background">
+      <div className="hidden overflow-x-auto rounded-2xl border bg-background md:block">
         <Table className="text-base">
           {tab === "categories" ? (
             <>
@@ -234,6 +236,67 @@ export function CatalogView({ catalog, canDelete }: { catalog: Catalog; canDelet
         {catalog[tab].length === 0 && <p className="p-10 text-center text-lg text-muted-foreground">Chưa có dữ liệu.</p>}
       </div>
 
+      {/* Điện thoại / máy tính bảng nhỏ: dạng thẻ */}
+      <ul className="space-y-3 md:hidden">
+        {catalog[tab].length === 0 && (
+          <li className="rounded-2xl border bg-background p-8 text-center text-lg text-muted-foreground">Chưa có dữ liệu.</li>
+        )}
+        {tab === "categories"
+          ? catalog.categories.map((c) => (
+              <li key={c.id} className="space-y-3 rounded-2xl border bg-background p-4">
+                <div>
+                  <div className="text-lg font-semibold">{c.name}</div>
+                  <div className="text-sm text-muted-foreground">
+                    <span className="font-mono">{c.code}</span>
+                    {c.parentId && ` · thuộc ${catName.get(c.parentId)}`} · {usageText(c.usage)}
+                  </div>
+                </div>
+                {c.specSchema.length > 0 && (
+                  <div className="flex flex-wrap gap-1">
+                    {c.specSchema.map((s) => (
+                      <Badge key={s.key} variant="secondary" className="text-sm">
+                        {s.label}
+                        {s.unit ? ` (${s.unit})` : ""}
+                      </Badge>
+                    ))}
+                  </div>
+                )}
+                <RowButtons
+                  stretch
+                  onEdit={() => openCategory(c)}
+                  onDelete={canDelete && !c.usage ? () => setDialog({ kind: "delete", table: "categories", id: c.id, name: c.name }) : undefined}
+                />
+              </li>
+            ))
+          : catalog[tab].map((row) => {
+              const [first, ...rest] = LOOKUPS[tab].columns;
+              return (
+                <li key={row.id} className="space-y-3 rounded-2xl border bg-background p-4">
+                  <div className="text-lg font-semibold">{(row[first.key] as string) ?? "—"}</div>
+                  <dl className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-base">
+                    {rest.map((col) => (
+                      <div key={col.key} className="contents">
+                        <dt className="text-muted-foreground">{col.label}</dt>
+                        <dd className="break-words">{col.render ? col.render(row) : ((row[col.key] as string) ?? "—")}</dd>
+                      </div>
+                    ))}
+                    <dt className="text-muted-foreground">Sử dụng</dt>
+                    <dd>{usageText(row.usage)}</dd>
+                  </dl>
+                  <RowButtons
+                    stretch
+                    onEdit={() => setDialog({ kind: "lookup", table: tab, row })}
+                    onDelete={
+                      canDelete && !row.usage
+                        ? () => setDialog({ kind: "delete", table: tab, id: row.id, name: String(row.name) })
+                        : undefined
+                    }
+                  />
+                </li>
+              );
+            })}
+      </ul>
+
       {dialog?.kind === "lookup" && (
         <FormDialog
           open
@@ -288,9 +351,9 @@ export function CatalogView({ catalog, canDelete }: { catalog: Catalog; canDelet
   );
 }
 
-function RowButtons({ onEdit, onDelete }: { onEdit: () => void; onDelete?: () => void }) {
+function RowButtons({ onEdit, onDelete, stretch }: { onEdit: () => void; onDelete?: () => void; stretch?: boolean }) {
   return (
-    <div className="flex justify-end gap-2">
+    <div className={cn("flex gap-2", stretch ? "[&>button]:flex-1" : "justify-end")}>
       <Button variant="outline" size="lg" onClick={onEdit}>
         <Pencil /> Sửa
       </Button>

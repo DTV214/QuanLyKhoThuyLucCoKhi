@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import type { ActionResult } from "@/lib/action-result";
+import { DIALOG_MOBILE_FULL, STICKY_ACTIONS } from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
 
 export type FieldDef = {
@@ -96,7 +97,7 @@ export function FormDialog({
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className={cn("max-h-[92dvh] overflow-y-auto p-6 text-base", wide ? "sm:max-w-3xl" : "sm:max-w-lg")}>
+      <DialogContent className={cn("max-h-[92dvh] overflow-y-auto p-6 text-base", DIALOG_MOBILE_FULL, wide ? "sm:max-w-3xl" : "sm:max-w-lg")}>
         <DialogHeader>
           <DialogTitle className="text-2xl">{title}</DialogTitle>
           {description && <DialogDescription className="text-base">{description}</DialogDescription>}
@@ -168,9 +169,11 @@ export function FormDialog({
             );
           })}
           {children}
-          <Button type="submit" size="xl" className="w-full" disabled={pending}>
-            {pending ? "Đang lưu…" : submitLabel}
-          </Button>
+          <div className={STICKY_ACTIONS}>
+            <Button type="submit" size="xl" className="w-full" disabled={pending}>
+              {pending ? "Đang lưu…" : submitLabel}
+            </Button>
+          </div>
         </form>
       </DialogContent>
     </Dialog>

@@ -23,6 +23,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ROLE_LABEL, type Role } from "@/lib/roles";
+import { DIALOG_MOBILE_FULL, STICKY_ACTIONS } from "@/lib/ui-classes";
+import { cn } from "@/lib/utils";
 import { changeUserRole, resetUserPassword, setUserLocked, updateUserInfo } from "../actions";
 import type { UserRow } from "../queries";
 import { RolePicker } from "./role-picker";
@@ -67,7 +69,7 @@ export function UserRowActions({ user, actorRole }: { user: UserRow; actorRole: 
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" size="lg" aria-label={`Thao tác với ${user.fullName}`}>
+          <Button variant="outline" size="lg" className="max-md:w-full" aria-label={`Thao tác với ${user.fullName}`}>
             <MoreHorizontal />
             Thao tác
           </Button>
@@ -93,7 +95,7 @@ export function UserRowActions({ user, actorRole }: { user: UserRow; actorRole: 
 
       {/* Sửa thông tin */}
       <Dialog open={mode === "edit"} onOpenChange={(o) => !o && close()}>
-        <DialogContent className="p-6 text-base sm:max-w-lg">
+        <DialogContent className={cn("max-h-[92dvh] overflow-y-auto p-6 text-base sm:max-w-lg", DIALOG_MOBILE_FULL)}>
           <DialogHeader>
             <DialogTitle className="text-2xl">Sửa thông tin</DialogTitle>
           </DialogHeader>
@@ -101,16 +103,18 @@ export function UserRowActions({ user, actorRole }: { user: UserRow; actorRole: 
             <FormField label="Email (không đổi được)" value={user.email} disabled readOnly />
             <FormField label="Họ và tên" name="fullName" defaultValue={user.fullName} error={errors.fullName} />
             <FormField label="Số điện thoại" name="phone" type="tel" defaultValue={user.phone ?? ""} error={errors.phone} />
-            <Button type="submit" size="xl" className="w-full" disabled={pending}>
-              {pending ? "Đang lưu…" : "Lưu"}
-            </Button>
+            <div className={STICKY_ACTIONS}>
+              <Button type="submit" size="xl" className="w-full" disabled={pending}>
+                {pending ? "Đang lưu…" : "Lưu"}
+              </Button>
+            </div>
           </form>
         </DialogContent>
       </Dialog>
 
       {/* Đổi quyền (chỉ ông chủ) */}
       <Dialog open={mode === "role"} onOpenChange={(o) => !o && close()}>
-        <DialogContent className="p-6 text-base sm:max-w-xl">
+        <DialogContent className={cn("max-h-[92dvh] overflow-y-auto p-6 text-base sm:max-w-xl", DIALOG_MOBILE_FULL)}>
           <DialogHeader>
             <DialogTitle className="text-2xl">Đổi quyền: {user.fullName}</DialogTitle>
           </DialogHeader>
@@ -170,7 +174,7 @@ export function UserRowActions({ user, actorRole }: { user: UserRow; actorRole: 
 
       {/* Hiện mật khẩu tạm mới */}
       <Dialog open={temp !== null} onOpenChange={(o) => !o && setTemp(null)}>
-        <DialogContent className="p-6 text-base sm:max-w-lg">
+        <DialogContent className={cn("max-h-[92dvh] overflow-y-auto p-6 text-base sm:max-w-lg", DIALOG_MOBILE_FULL)}>
           <DialogHeader>
             <DialogTitle className="text-2xl">Mật khẩu tạm mới</DialogTitle>
           </DialogHeader>

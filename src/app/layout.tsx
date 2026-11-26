@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Be_Vietnam_Pro } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -10,6 +10,13 @@ const beVietnam = Be_Vietnam_Pro({
   subsets: ["latin", "vietnamese"],
   weight: ["400", "500", "600", "700"],
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover", // cho phép dùng env(safe-area-inset-*) trên iPhone có tai thỏ
+  themeColor: "#1E5AA8",
+};
 
 export const metadata: Metadata = {
   title: { default: COMPANY_NAME, template: `%s · ${COMPANY_NAME}` },

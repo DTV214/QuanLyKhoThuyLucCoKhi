@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { formatDate } from "@/lib/date";
 import { canManageUser, ROLE_LABEL, type Role } from "@/lib/roles";
+import { SCROLL_ROW } from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
 import type { UserRow } from "../queries";
 import { UserRowActions } from "./user-row-actions";
@@ -76,7 +77,7 @@ export function UsersView({ users, actor }: { users: UserRow[]; actor: { id: str
             className="h-12 rounded-xl bg-background pl-12 text-base"
           />
         </div>
-        <div className="flex gap-2">
+        <div className={SCROLL_ROW}>
           {FILTERS.map((f) => (
             <button
               key={f.value}
@@ -84,7 +85,7 @@ export function UsersView({ users, actor }: { users: UserRow[]; actor: { id: str
               onClick={() => setFilter(f.value)}
               aria-pressed={filter === f.value}
               className={cn(
-                "h-12 rounded-xl border px-4 text-base font-medium whitespace-nowrap transition-colors",
+                "h-12 shrink-0 rounded-xl border px-4 text-base font-medium whitespace-nowrap transition-colors",
                 filter === f.value ? "border-primary bg-primary text-primary-foreground" : "bg-background hover:bg-muted",
               )}
             >

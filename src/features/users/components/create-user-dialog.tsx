@@ -14,10 +14,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
 import { createUser } from "../actions";
 import { createUserSchema } from "../schemas";
 import { RolePicker } from "./role-picker";
 import { TempPasswordCard } from "./temp-password-card";
+import { DIALOG_MOBILE_FULL, STICKY_ACTIONS } from "@/lib/ui-classes";
 
 type Errors = Partial<Record<"fullName" | "email" | "phone" | "role", string>>;
 type Created = { fullName: string; email: string; tempPassword: string };
@@ -69,12 +71,12 @@ export function CreateUserDialog({ allowAdmin }: { allowAdmin: boolean }) {
       }}
     >
       <DialogTrigger asChild>
-        <Button size="xl">
+        <Button size="xl" className="w-full sm:w-auto">
           <UserPlus />
           Thêm tài khoản
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-h-[92dvh] overflow-y-auto p-6 text-base sm:max-w-xl">
+      <DialogContent className={cn("max-h-[92dvh] overflow-y-auto p-6 text-base sm:max-w-xl", DIALOG_MOBILE_FULL)}>
         <DialogHeader>
           <DialogTitle className="text-2xl">{created ? "Đã tạo tài khoản" : "Thêm tài khoản mới"}</DialogTitle>
           {!created && (
@@ -109,10 +111,12 @@ export function CreateUserDialog({ allowAdmin }: { allowAdmin: boolean }) {
               error={errors.phone}
             />
             <RolePicker value={role} onChange={setRole} allowAdmin={allowAdmin} error={errors.role} />
-            <Button type="submit" size="xl" className="w-full" disabled={pending}>
-              <UserPlus />
-              {pending ? "Đang tạo…" : "Tạo tài khoản"}
-            </Button>
+            <div className={STICKY_ACTIONS}>
+              <Button type="submit" size="xl" className="w-full" disabled={pending}>
+                <UserPlus />
+                {pending ? "Đang tạo…" : "Tạo tài khoản"}
+              </Button>
+            </div>
           </form>
         )}
       </DialogContent>

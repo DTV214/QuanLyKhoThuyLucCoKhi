@@ -7,8 +7,8 @@
 | 0 | Nền móng | Next.js, shadcn, schema DB, RLS, tài liệu | ✅ |
 | 1 | Auth & người dùng | Đăng nhập, quên/đổi mật khẩu, tạo & khoá tài khoản, phân quyền | ✅ |
 | 2 | Kho & Kệ, Danh mục | Sơ đồ kho, kệ, tầng; loại hàng + thông số riêng; hãng, vật liệu… | ✅ |
-| **2.5** | **Responsive toàn bộ** | Rà lại mọi trang đã làm trên điện thoại / máy tính bảng (xem mục R) | 🔜 làm trước GĐ 3 |
-| 3 | Mặt hàng | Thêm/sửa mặt hàng, thông số động theo loại, ảnh Cloudinary, **kích thước & khối lượng** (chuẩn bị cho AI) | ⏳ |
+| **2.5** | **Responsive toàn bộ** | Menu "Thêm" trên điện thoại, hộp thoại toàn màn hình + nút dính đáy, bảng → thẻ, hàng lọc cuộn ngang. Ảnh mốc: `docs/screenshots/` | ✅ |
+| 3 | Mặt hàng | Thêm/sửa mặt hàng, thông số động theo loại, ảnh Cloudinary, **kích thước & khối lượng** (chuẩn bị cho AI) | 🔜 |
 | 4 | Tìm kiếm | Ô tìm không dấu, lọc chip, Ctrl+K | ⏳ |
 | 5 | Nhập / lấy / chuyển / kiểm kê | Hộp xác nhận lấy hàng, phiếu nhập nhiều dòng | ⏳ |
 | 6 | Realtime & thông báo | Cập nhật tức thì, chuông thông báo, sắp hết hàng | ⏳ |
@@ -24,6 +24,8 @@ Mỗi giai đoạn từ nay **phải đạt chuẩn responsive (mục R) trướ
 
 Kiểm tra ở 3 khổ: **điện thoại 375px**, **máy tính bảng 768px**, **máy tính ≥ 1280px**.
 
+> Lưu ý: cỡ chữ gốc 17px nên mốc Tailwind lệch theo: `sm` = 680px, `md` = 816px, `lg` = 1088px. Máy tính bảng 768px dùng giao diện điện thoại (menu dưới, thẻ thay bảng).
+
 | Hạng mục | Yêu cầu |
 |---|---|
 | Không cuộn ngang | Không có thanh cuộn ngang ở 375px (trừ bên trong bảng dữ liệu có khung riêng) |
@@ -35,7 +37,7 @@ Kiểm tra ở 3 khổ: **điện thoại 375px**, **máy tính bảng 768px**, 
 | Chữ | Không nhỏ hơn 14px ở bất kỳ khổ nào; tiêu đề tự xuống dòng |
 | Ô nhập số | `inputMode="numeric"` / `decimal` để bật bàn phím số trên điện thoại |
 
-**Việc cụ thể của GĐ 2.5** (rà các trang đã làm):
+**Việc cụ thể của GĐ 2.5** (đã xong 27/11/2026 — dùng `src/lib/ui-classes.ts`: `DIALOG_MOBILE_FULL`, `STICKY_ACTIONS`, `SCROLL_ROW`; khung chung `src/components/layout/app-shell.tsx`):
 1. Menu dưới điện thoại: thêm nút **Thêm** chứa Báo cáo, Người dùng, Tài khoản, Đăng xuất.
 2. Header điện thoại: logo + tên rút gọn, nút đăng xuất gọn (chỉ icon có nhãn).
 3. `/danh-muc`: bảng → thẻ trên điện thoại; hàng tab cuộn ngang.

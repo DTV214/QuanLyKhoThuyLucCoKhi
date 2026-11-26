@@ -24,7 +24,7 @@ export default async function WarehousePage() {
           </p>
         </div>
         {canEdit && (
-          <Button asChild variant="outline" size="xl">
+          <Button asChild variant="outline" size="xl" className="w-full sm:w-auto">
             <Link href="/danh-muc">
               <Tags /> Danh mục hàng hoá
             </Link>

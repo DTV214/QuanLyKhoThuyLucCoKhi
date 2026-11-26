@@ -7,6 +7,7 @@ import { FormDialog } from "@/components/common/form-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { DIALOG_MOBILE_FULL } from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
 import { saveRack, saveWarehouse, saveZone, setActive } from "../actions";
 import type { RackNode, WarehouseNode, ZoneNode } from "../types";
@@ -37,7 +38,7 @@ export function WarehouseMap({ tree, canEdit }: { tree: WarehouseNode[]; canEdit
   return (
     <div className="space-y-6">
       {/* Chọn kho */}
-      <div className="flex flex-wrap items-center gap-3">
+      <div className="grid gap-3 sm:flex sm:flex-wrap sm:items-center">
         {visibleTree.map((w) => {
           const rackCount = w.zones.reduce((a, z) => a + z.racks.filter((r) => r.isActive).length, 0);
           const active = w.id === wh?.id;
@@ -64,11 +65,11 @@ export function WarehouseMap({ tree, canEdit }: { tree: WarehouseNode[]; canEdit
           );
         })}
         {canEdit && (
-          <Button variant="outline" size="xl" onClick={() => setDialog({ kind: "warehouse" })}>
+          <Button variant="outline" size="xl" className="w-full sm:w-auto" onClick={() => setDialog({ kind: "warehouse" })}>
             <Plus /> Thêm kho
           </Button>
         )}
-        <label className="ml-auto flex cursor-pointer items-center gap-2 text-base text-muted-foreground">
+        <label className="flex min-h-11 cursor-pointer items-center gap-2 text-base text-muted-foreground sm:ml-auto">
           <input
             type="checkbox"
             className="size-5 accent-primary"
@@ -84,7 +85,7 @@ export function WarehouseMap({ tree, canEdit }: { tree: WarehouseNode[]; canEdit
       ) : (
         <>
           {/* Thông tin kho */}
-          <div className="flex flex-col gap-4 rounded-2xl border bg-background p-5 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-col gap-4 rounded-2xl border bg-background p-5 lg:flex-row lg:items-center lg:justify-between">
             <div>
               <h2 className="flex items-center gap-2 text-2xl font-bold">
                 {wh.name} {!wh.isActive && <Badge variant="destructive">Ngừng dùng</Badge>}
@@ -97,8 +98,8 @@ export function WarehouseMap({ tree, canEdit }: { tree: WarehouseNode[]; canEdit
               {wh.description && <p className="mt-1 text-muted-foreground">{wh.description}</p>}
             </div>
             {canEdit && (
-              <div className="flex flex-wrap gap-2">
-                <Button size="xl" onClick={() => setDialog({ kind: "zone", warehouseId: wh.id })}>
+              <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
+                <Button size="xl" className="col-span-2" onClick={() => setDialog({ kind: "zone", warehouseId: wh.id })}>
                   <Plus /> Thêm khu vực
                 </Button>
                 <Button variant="outline" size="xl" onClick={() => setDialog({ kind: "warehouse", data: wh })}>
@@ -125,7 +126,7 @@ export function WarehouseMap({ tree, canEdit }: { tree: WarehouseNode[]; canEdit
             const racks = zone.racks.filter((r) => showInactive || r.isActive);
             return (
               <section key={zone.id} className={cn("space-y-4 rounded-2xl border bg-background p-5", !zone.isActive && "opacity-70")}>
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
                   <h3 className="flex flex-wrap items-center gap-3 text-xl font-bold">
                     <span className="rounded-lg bg-accent px-2.5 py-1 font-mono text-accent-foreground">
                       {wh.code}-{zone.code}
@@ -134,9 +135,10 @@ export function WarehouseMap({ tree, canEdit }: { tree: WarehouseNode[]; canEdit
                     {!zone.isActive && <Badge variant="destructive">Ngừng dùng</Badge>}
                   </h3>
                   {canEdit && (
-                    <div className="flex flex-wrap gap-2">
+                    <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
                       <Button
                         size="lg"
+                        className="col-span-2"
                         onClick={() => setDialog({ kind: "rack", zoneId: zone.id, zones: wh.zones })}
                         disabled={!zone.isActive}
                       >
@@ -198,7 +200,7 @@ export function WarehouseMap({ tree, canEdit }: { tree: WarehouseNode[]; canEdit
 
       {/* Chi tiết kệ */}
       <Dialog open={!!liveRack} onOpenChange={(o) => !o && setOpenRack(null)}>
-        <DialogContent className="max-h-[92dvh] overflow-y-auto p-6 text-base sm:max-w-lg">
+        <DialogContent className={cn("max-h-[92dvh] overflow-y-auto p-6 text-base sm:max-w-lg", DIALOG_MOBILE_FULL)}>
           {liveRack && (
             <>
               <DialogHeader>
@@ -239,7 +241,7 @@ export function WarehouseMap({ tree, canEdit }: { tree: WarehouseNode[]; canEdit
                 Mã vị trí (vd {liveRack.r.locations[0]?.code}) dùng để ghi lên nhãn kệ và tìm nhanh trong ô Tìm hàng.
               </p>
               {canEdit && (
-                <div className="flex flex-wrap gap-2">
+                <div className="grid gap-2 sm:flex sm:flex-wrap">
                   <Button
                     size="xl"
                     variant="outline"
