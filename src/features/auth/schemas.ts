@@ -34,6 +34,16 @@ export const changePasswordSchema = z
   .refine((v) => v.password === v.confirm, { path: ["confirm"], message: "Hai mật khẩu không khớp" })
   .refine((v) => v.password !== v.current, { path: ["password"], message: "Mật khẩu mới phải khác mật khẩu cũ" });
 
+export const ownProfileSchema = z.object({
+  fullName: z.string().trim().min(2, "Họ tên tối thiểu 2 ký tự").max(100, "Họ tên tối đa 100 ký tự"),
+  phone: z
+    .string()
+    .trim()
+    .transform((v) => v.replace(/\s+/g, " "))
+    .refine((v) => v === "" || /^[0-9+ ]{8,15}$/.test(v), "Số điện thoại không hợp lệ")
+    .transform((v) => (v ? v : null)),
+});
+
 export type SignInInput = z.infer<typeof signInSchema>;
 export type ForgotPasswordInput = z.infer<typeof forgotPasswordSchema>;
 export type SetPasswordInput = z.infer<typeof setPasswordSchema>;

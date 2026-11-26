@@ -336,12 +336,12 @@ export function WarehouseMap({ tree, canEdit }: { tree: WarehouseNode[]; canEdit
             },
             { name: "code", label: "Mã kệ", required: true, uppercase: true, defaultValue: dialog.data?.code, placeholder: "VD: 01, 02, 15" },
             { name: "levels", label: "Số tầng", type: "number", required: true, min: 1, max: 20, defaultValue: dialog.data?.levels ?? 4 },
-            { name: "name", label: "Tên gợi nhớ", defaultValue: dialog.data?.name, placeholder: "VD: Kệ sát cửa sổ" },
+            { name: "name", label: "Tên gợi nhớ", defaultValue: dialog.data?.name, placeholder: "VD: Kệ to gần cửa, kệ sắt xanh", hint: "Hiện cạnh mã kệ khi chọn chỗ cất / lấy hàng — giúp nhận ra kệ nhanh" },
             { name: "levelWidthMm", label: "Chiều ngang mỗi tầng (mm)", type: "number", min: 1, defaultValue: dialog.data?.levelWidthMm, placeholder: "VD: 1200", hint: "Đo 1 tầng. Dùng để cảnh báo hàng quá dài / quá nặng" },
             { name: "levelDepthMm", label: "Chiều sâu mỗi tầng (mm)", type: "number", min: 1, defaultValue: dialog.data?.levelDepthMm, placeholder: "VD: 600" },
             { name: "levelHeightMm", label: "Chiều cao mỗi tầng (mm)", type: "number", min: 1, defaultValue: dialog.data?.levelHeightMm, placeholder: "VD: 400" },
             { name: "levelMaxLoadKg", label: "Tải trọng tối đa mỗi tầng (kg)", type: "number", min: 1, defaultValue: dialog.data?.levelMaxLoadKg, placeholder: "VD: 150" },
-            { name: "description", label: "Ghi chú", type: "textarea", defaultValue: dialog.data?.description },
+            { name: "description", label: "Ghi chú vị trí kệ", type: "textarea", defaultValue: dialog.data?.description, placeholder: "VD: bên trái lối vào, cạnh máy cắt ống" },
           ]}
         />
       )}

@@ -11,8 +11,8 @@
 | 3 | Mặt hàng | Thêm/sửa mặt hàng, thông số động theo loại, ảnh Cloudinary, **kích thước & khối lượng** (chuẩn bị cho AI) | ✅ |
 | 4 | Tìm kiếm | Tìm không dấu + bộ lọc (GĐ 3), **tìm nhanh Ctrl+K** ở mọi trang, **nút lọc nhanh** (Kho 1/Kho 2, Còn hàng, Sắp hết) | ✅ |
 | 5 | Nhập / lấy / chuyển / kiểm kê | Lấy hàng 3 bước, phiếu nhập nhiều dòng (lỗi 1 dòng → huỷ cả phiếu), chuyển vị trí, kiểm kê (quản lý), chặn ngày tương lai. Thêm "Thông số khác" cho mặt hàng | ✅ |
-| 6 | Realtime & thông báo | Cập nhật tức thì, chuông thông báo, sắp hết hàng | 🔜 |
-| 7 | Dashboard & báo cáo | Biểu đồ, lịch sử, xuất Excel | ⏳ |
+| 6 | Realtime & thông báo | Số tồn tự cập nhật khi người khác nhập/lấy (không cần tải lại), chuông thông báo cho ông chủ/quản trị (ai lấy/nhập, sắp hết, kiểm kê). Chọn vị trí 2 bước: kệ có tên gợi nhớ → tầng | ✅ |
+| 7 | Dashboard & báo cáo | Lịch sử nhập/xuất + huỷ thao tác sai (phiếu đảo), biểu đồ, xuất Excel | 🔜 |
 | **8** | **Trợ lý AI** | Hộp chat hỏi đáp (xem mục AI) | ⏳ sau khi GĐ 3–7 xong |
 | 9 | (Tuỳ chọn) QR | In nhãn QR cho kệ, quét để mở vị trí | ⏳ |
 

@@ -18,6 +18,15 @@ export type LocationOption = {
   path: string;
   /** Nhóm hiển thị: "Kho 1 – Trong nhà · Khu A – Fitting" */
   group: string;
+  rackId: string;
+  /** K1-A-01 */
+  rackCode: string;
+  /** Tên gợi nhớ của kệ, vd "Kệ to gần cửa" */
+  rackName: string | null;
+  /** Ghi chú kệ */
+  rackNote: string | null;
+  level: number;
+  bin: number | null;
 };
 
 export type StockRow = {
@@ -26,6 +35,7 @@ export type StockRow = {
   warehouse: string;
   zone: string;
   rack: string;
+  rack_name?: string | null;
   level: number;
   quantity: number;
 };

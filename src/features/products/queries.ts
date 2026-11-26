@@ -53,6 +53,8 @@ export type StockLocation = {
   warehouse_code: string;
   zone: string;
   rack: string;
+  /** tên gợi nhớ của kệ (chỉ có ở trang chi tiết) */
+  rack_name?: string | null;
   level: number;
   bin: number | null;
   quantity: number;
@@ -172,7 +174,7 @@ export async function getProduct(id: string): Promise<ProductDetail | null> {
 
   const { data: inv } = await supabase
     .from("inventory")
-    .select("quantity, locations(id, code, level, bin, racks(code, zones(name, warehouses(code, name))))")
+    .select("quantity, locations(id, code, level, bin, racks(code, name, zones(name, warehouses(code, name))))")
     .eq("product_id", id)
     .gt("quantity", 0)
     .order("quantity", { ascending: false });
@@ -184,7 +186,7 @@ export async function getProduct(id: string): Promise<ProductDetail | null> {
       code: string;
       level: number;
       bin: number | null;
-      racks: { code: string; zones: { name: string; warehouses: { code: string; name: string } } };
+      racks: { code: string; name: string | null; zones: { name: string; warehouses: { code: string; name: string } } };
     };
   };
   const stock: StockLocation[] = ((inv ?? []) as unknown as InvRow[]).map((r) => ({
@@ -193,6 +195,7 @@ export async function getProduct(id: string): Promise<ProductDetail | null> {
     level: r.locations.level,
     bin: r.locations.bin,
     rack: r.locations.racks.code,
+    rack_name: r.locations.racks.name,
     zone: r.locations.racks.zones.name,
     warehouse: r.locations.racks.zones.warehouses.name,
     warehouse_code: r.locations.racks.zones.warehouses.code,

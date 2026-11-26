@@ -45,6 +45,12 @@ npm run seed:owner
 ```
 Xong thì **xoá dòng `OWNER_PASSWORD`** trong `.env.local`.
 
+**Đã lỡ tạo tài khoản thẳng trên trang Supabase?** Tài khoản đó mặc định là **Nhân viên** (không thấy menu Người dùng, Báo cáo). Nâng lên ông chủ bằng:
+```powershell
+npm run set-role -- email-cua-ban@congty.vn owner "Họ và tên"
+```
+Rồi tải lại trang web. Lệnh này cũng dùng để đổi quyền bất kỳ tài khoản nào (`owner`, `admin`, `staff`).
+
 ### A6. Chạy web
 ```powershell
 npm run dev
@@ -71,6 +77,9 @@ Mở trình duyệt: http://localhost:3000
 4. Gõ mật khẩu mới 2 lần → **Lưu mật khẩu mới**.
 
 Hoặc nhờ quản trị bấm **Đặt lại mật khẩu** cho bạn (xem mục D).
+
+### Sửa họ tên của mình
+Bấm vào **tên / ảnh đại diện** (góc trên bên phải; điện thoại: **Thêm → Tài khoản của tôi**) → sửa **Họ và tên**, **Số điện thoại** → **Lưu thông tin**. Họ tên hiện ở lời chào và trong lịch sử lấy/nhập hàng.
 
 ### Tự đổi mật khẩu
 Bấm vào **tên của bạn** (góc trên bên phải) → trang **Tài khoản của tôi** → nhập mật khẩu hiện tại và mật khẩu mới → **Đổi mật khẩu**.
@@ -160,6 +169,14 @@ Menu **Tìm hàng**.
 ## E2b. Tìm nhanh từ bất kỳ trang nào
 Bấm nút **🔍 Tìm nhanh** trên thanh đầu trang (máy tính: phím **Ctrl + K**). Gõ tên/mã → bấm vào mặt hàng để mở, hoặc **Xem tất cả kết quả**.
 
+## E2b2. Chọn vị trí cất / chuyển đến (2 bước)
+Ở phiếu nhập và hộp chuyển hàng:
+1. Nếu mặt hàng đang có sẵn ở đâu đó, các **ô "chỗ đang có hàng"** hiện trên cùng — bấm 1 cái là chọn xong.
+2. Không thì **Bước 1: chọn kệ** — danh sách ghi mã kệ kèm **tên gợi nhớ** (vd `K1-A-01 · Kệ to gần cửa`), nhóm theo Kho · Khu. Ghi chú của kệ (vd "bên trái lối vào") hiện màu vàng bên dưới.
+3. **Bước 2: bấm tầng** — nút to "Tầng 4 … Tầng 1" xếp như kệ thật (tầng cao ở trên).
+
+> Quản trị đặt **tên gợi nhớ** và **ghi chú vị trí** cho từng kệ ở **Kho & Kệ → bấm kệ → Sửa kệ**. Nên đặt cho mọi kệ để nhân viên mới cũng tìm được.
+
 ## E2c. Lấy hàng (mọi người)
 1. Tìm hàng → bấm vào mặt hàng. Phần **Tồn kho** liệt kê từng vị trí (vd **K1-A-01-T2** = Kho 1, Khu A, Kệ 01, Tầng 2) và số lượng.
 2. Đi đến đúng vị trí đó, bấm **Lấy hàng** ở dòng vị trí.
@@ -204,6 +221,10 @@ Bấm **Lưu mặt hàng** (thanh dưới cùng). Bấm **Huỷ** sẽ bỏ cả
 
 ### Kích thước kệ
 Kho & Kệ → bấm kệ → **Sửa kệ / số tầng** → điền chiều ngang, sâu, cao và **tải trọng tối đa** mỗi tầng. Dùng để sau này cảnh báo khi cất hàng quá dài / quá nặng.
+
+## E4. Thông báo & tự cập nhật
+- **Số tồn tự cập nhật**: khi người khác nhập/lấy/chuyển hàng, trang Tìm hàng, trang mặt hàng và Kho & Kệ tự đổi số sau khoảng 1–2 giây, không cần tải lại.
+- **Chuông 🔔** (ông chủ, quản trị — góc trên bên phải): số đỏ = thông báo chưa đọc. Có thông báo khi nhân viên **lấy hàng**, **nhập phiếu**, khi hàng **sắp hết** (≤ tồn tối thiểu) và khi có **kiểm kê**. Thông báo mới cũng hiện ô nhỏ ở đầu màn hình. Bấm vào thông báo để mở mặt hàng; **Đã đọc hết** để xoá số đỏ.
 
 ## F. Danh mục hàng hoá (ông chủ, quản trị)
 

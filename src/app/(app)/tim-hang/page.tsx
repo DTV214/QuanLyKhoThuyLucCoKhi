@@ -3,11 +3,12 @@ import { PackagePlus, SearchX } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 import { GridPattern } from "@/components/magic/grid-pattern";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { ProductCard, SearchFilters } from "@/features/products";
 import { getProductFormOptions, searchProducts } from "@/features/products/queries";
 import { searchFiltersSchema } from "@/features/products/schemas";
-import { isManager } from "@/lib/roles";
+import { isManager, ROLE_LABEL } from "@/lib/roles";
 import { requireUser } from "@/server/auth/guard";
 
 export const metadata: Metadata = { title: "Tìm hàng" };
@@ -41,6 +42,14 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
           )}
         </div>
       </section>
+
+      {raw.loi === "khong-co-quyen" && (
+        <Alert variant="destructive">
+          <AlertDescription className="text-base">
+            Tài khoản của bạn ({ROLE_LABEL[user.role]}) không có quyền vào trang vừa mở. Cần quyền khác thì liên hệ ông chủ.
+          </AlertDescription>
+        </Alert>
+      )}
 
       <Suspense>
         <SearchFilters options={options} />

@@ -93,7 +93,8 @@ export function TakeStockDialog({
         <MapPin className="size-6" /> {location.code}
       </p>
       <p className="mt-1 text-base">
-        {location.warehouse} › {location.zone} › <b>Kệ {location.rack}</b> › <b>Tầng {location.level}</b>
+        {location.warehouse} › {location.zone} › <b>Kệ {location.rack}</b>
+        {location.rack_name ? <b> ({location.rack_name})</b> : null} › <b>Tầng {location.level}</b>
       </p>
     </div>
   );

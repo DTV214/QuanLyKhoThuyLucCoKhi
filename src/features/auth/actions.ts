@@ -1,12 +1,13 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { fail, fromZodError, ok, type ActionResult } from "@/lib/action-result";
 import { isSupabaseConfigured, publicEnv } from "@/lib/env";
 import { getCurrentUser } from "@/server/auth/guard";
 import { createAdminSupabase } from "@/server/supabase/admin";
 import { createServerSupabase } from "@/server/supabase/server";
-import { changePasswordSchema, forgotPasswordSchema, setPasswordSchema, signInSchema } from "./schemas";
+import { changePasswordSchema, forgotPasswordSchema, ownProfileSchema, setPasswordSchema, signInSchema } from "./schemas";
 
 const NOT_CONFIGURED = "Hệ thống chưa được cấu hình Supabase (.env.local)";
 
@@ -130,4 +131,22 @@ export async function changeOwnPassword(input: unknown): Promise<ActionResult> {
   const { error } = await supabase.auth.updateUser({ password: parsed.data.password });
   if (error) return fail("Không đổi được mật khẩu, vui lòng thử lại");
   return ok(undefined, "Đã đổi mật khẩu");
+}
+
+/** Tự sửa họ tên / số điện thoại của mình (RLS: chỉ hàng của mình; trigger chặn đổi quyền) */
+export async function updateOwnProfile(input: unknown): Promise<ActionResult> {
+  if (!isSupabaseConfigured) return fail(NOT_CONFIGURED);
+  const parsed = ownProfileSchema.safeParse(input);
+  if (!parsed.success) return fromZodError(parsed.error);
+  const user = await getCurrentUser();
+  if (!user) return fail("Phiên đã hết hạn, vui lòng đăng nhập lại");
+
+  const supabase = await createServerSupabase();
+  const { error } = await supabase
+    .from("profiles")
+    .update({ full_name: parsed.data.fullName, phone: parsed.data.phone })
+    .eq("id", user.id);
+  if (error) return fail("Không lưu được thông tin");
+  revalidatePath("/", "layout");
+  return ok(undefined, "Đã lưu thông tin của bạn");
 }

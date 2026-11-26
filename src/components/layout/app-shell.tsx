@@ -2,6 +2,8 @@ import { BottomNav, SideNav } from "@/components/layout/app-nav";
 import { Logo } from "@/components/layout/logo";
 import { UserMenu } from "@/components/layout/user-menu";
 import { QuickSearch } from "@/features/inventory";
+import { NotificationBell, RealtimeSync } from "@/features/notifications";
+import { isManager } from "@/lib/roles";
 import type { CurrentUser } from "@/server/auth/guard";
 
 /**
@@ -25,6 +27,7 @@ export function AppShell({ user, children }: { user: CurrentUser; children: Reac
           {/* Chỉ 1 ô tìm nhanh (phím Ctrl+K gắn vào đây) */}
           <div className="flex items-center gap-2">
             <QuickSearch />
+            {isManager(user.role) && <NotificationBell userId={user.id} />}
             <UserMenu user={user} />
           </div>
         </header>
@@ -34,6 +37,7 @@ export function AppShell({ user, children }: { user: CurrentUser; children: Reac
       </div>
 
       <BottomNav role={user.role} fullName={user.fullName} />
+      <RealtimeSync />
     </div>
   );
 }

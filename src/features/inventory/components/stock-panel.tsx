@@ -45,7 +45,11 @@ export function StockPanel({
           <span className={cn("text-3xl", total === 0 ? "text-destructive" : low ? "text-amber-700" : "text-emerald-700")}>
             {formatQty(total)} {unit}
           </span>
-          {low && <span className="text-base font-medium text-amber-700">Sắp hết (tối thiểu {formatQty(minStock)})</span>}
+          {total === 0 ? (
+            <span className="text-base font-medium text-destructive">Hết hàng</span>
+          ) : (
+            low && <span className="text-base font-medium text-amber-700">Sắp hết (tối thiểu {formatQty(minStock)})</span>
+          )}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -61,7 +65,8 @@ export function StockPanel({
                       <MapPin className="size-5 shrink-0" /> {s.code}
                     </span>
                     <span className="block text-sm text-muted-foreground">
-                      {s.warehouse} › {s.zone} › Kệ {s.rack} › Tầng {s.level}
+                      {s.warehouse} › {s.zone} › Kệ {s.rack}
+                      {s.rack_name ? <b className="text-foreground"> ({s.rack_name})</b> : null} › Tầng {s.level}
                     </span>
                   </span>
                   <span className="shrink-0 text-right">
