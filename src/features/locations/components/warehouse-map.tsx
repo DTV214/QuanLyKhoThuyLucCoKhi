@@ -207,6 +207,9 @@ export function WarehouseMap({ tree, canEdit }: { tree: WarehouseNode[]; canEdit
                 <DialogTitle className="font-mono text-2xl">Kệ {liveRack.r.fullCode}</DialogTitle>
                 <DialogDescription className="text-base">
                   {liveRack.z.name}
+                  {liveRack.r.levelWidthMm || liveRack.r.levelDepthMm || liveRack.r.levelMaxLoadKg
+                    ? ` · Mỗi tầng: ${[liveRack.r.levelWidthMm, liveRack.r.levelDepthMm, liveRack.r.levelHeightMm].map((x) => x ?? "—").join(" × ")} mm${liveRack.r.levelMaxLoadKg ? `, tối đa ${liveRack.r.levelMaxLoadKg} kg` : ""}`
+                    : ""}
                   {liveRack.r.name ? ` · ${liveRack.r.name}` : ""}
                   {liveRack.r.description ? ` · ${liveRack.r.description}` : ""}
                 </DialogDescription>
@@ -334,6 +337,10 @@ export function WarehouseMap({ tree, canEdit }: { tree: WarehouseNode[]; canEdit
             { name: "code", label: "Mã kệ", required: true, uppercase: true, defaultValue: dialog.data?.code, placeholder: "VD: 01, 02, 15" },
             { name: "levels", label: "Số tầng", type: "number", required: true, min: 1, max: 20, defaultValue: dialog.data?.levels ?? 4 },
             { name: "name", label: "Tên gợi nhớ", defaultValue: dialog.data?.name, placeholder: "VD: Kệ sát cửa sổ" },
+            { name: "levelWidthMm", label: "Chiều ngang mỗi tầng (mm)", type: "number", min: 1, defaultValue: dialog.data?.levelWidthMm, placeholder: "VD: 1200", hint: "Đo 1 tầng. Dùng để cảnh báo hàng quá dài / quá nặng" },
+            { name: "levelDepthMm", label: "Chiều sâu mỗi tầng (mm)", type: "number", min: 1, defaultValue: dialog.data?.levelDepthMm, placeholder: "VD: 600" },
+            { name: "levelHeightMm", label: "Chiều cao mỗi tầng (mm)", type: "number", min: 1, defaultValue: dialog.data?.levelHeightMm, placeholder: "VD: 400" },
+            { name: "levelMaxLoadKg", label: "Tải trọng tối đa mỗi tầng (kg)", type: "number", min: 1, defaultValue: dialog.data?.levelMaxLoadKg, placeholder: "VD: 150" },
             { name: "description", label: "Ghi chú", type: "textarea", defaultValue: dialog.data?.description },
           ]}
         />

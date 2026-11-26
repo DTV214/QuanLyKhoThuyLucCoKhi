@@ -114,3 +114,20 @@ select v.sku, v.pn, v.name,
     ('TD-TUBE-316L-1/4', null,       'Ống inox 316L 1/4" x 0.035"', 'TUBE', 'Không thương hiệu', 'KR', 'SS316L', 'm', '1/4"', '{"od":"1/4\"","wall":0.89,"length":6,"seam":"Ống đúc (liền)"}', 30)
   ) as v(sku, pn, name, cat, brand, country, mat, unit, size, specs, min)
 on conflict (sku) do nothing;
+
+-- Mặt hàng mẫu theo phiếu thực tế (giai đoạn 3: đủ thông số chi tiết)
+insert into public.products (sku, name, category_id, brand_id, material_id, unit_id, size, specs, min_stock,
+                             description, quality_standard, temp_min, temp_max, media,
+                             connection_a, connection_b, length_mm, width_mm)
+select 'TD-VMC-PTFE-D8', 'Van một chiều nối nhanh Φ8–Φ8',
+       (select id from public.categories where code = 'VALVE'),
+       (select id from public.brands where name = 'Không thương hiệu'),
+       (select id from public.materials where code = 'PTFE'),
+       (select id from public.units where code = 'cai'),
+       'Φ8', '{"valve_type":"Van một chiều","connection":"Nối nhanh ống OD 8mm","hex_mm":19}'::jsonb, 5,
+       'Van một chiều kiểu nối nhanh, hai đầu dùng cho ống có đường kính ngoài 8 mm. Kích thước đai ốc lục giác 19 mm, thân van rộng 24 mm, tổng chiều dài 78 mm.',
+       'Tiêu chuẩn Đức', -190, 280, array['Axit', 'Kiềm', 'Hoá chất ăn mòn'],
+       'Φ8', 'Φ8', 78, 24
+where exists (select 1 from information_schema.columns
+               where table_schema = 'public' and table_name = 'products' and column_name = 'temp_min')
+on conflict (sku) do nothing;

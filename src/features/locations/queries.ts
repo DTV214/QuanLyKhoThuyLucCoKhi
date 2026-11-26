@@ -9,7 +9,10 @@ export async function getWarehouseTree(): Promise<WarehouseNode[]> {
   const [w, z, r, l, s] = await Promise.all([
     supabase.from("warehouses").select("id, code, name, address, description, is_active").order("code"),
     supabase.from("zones").select("id, warehouse_id, code, name, description, is_active").order("code"),
-    supabase.from("racks").select("id, zone_id, code, name, levels, description, is_active").order("code"),
+    supabase
+      .from("racks")
+      .select("id, zone_id, code, name, levels, description, is_active, level_width_mm, level_depth_mm, level_height_mm, level_max_load_kg")
+      .order("code"),
     supabase.from("locations").select("id, rack_id, level, bin, code, is_active").order("level"),
     supabase.from("v_location_stock").select("location_id, product_count, total_quantity"),
   ]);
@@ -54,6 +57,10 @@ export async function getWarehouseTree(): Promise<WarehouseNode[]> {
               levels: rk.levels,
               description: rk.description,
               isActive: rk.is_active,
+              levelWidthMm: rk.level_width_mm === null ? null : Number(rk.level_width_mm),
+              levelDepthMm: rk.level_depth_mm === null ? null : Number(rk.level_depth_mm),
+              levelHeightMm: rk.level_height_mm === null ? null : Number(rk.level_height_mm),
+              levelMaxLoadKg: rk.level_max_load_kg === null ? null : Number(rk.level_max_load_kg),
               locations: levels,
               productCount: levels.reduce((a, x) => a + x.productCount, 0),
             };

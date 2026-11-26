@@ -84,7 +84,7 @@ Máy tính: bấm **Đăng xuất** ở góc trên bên phải. Điện thoại:
 
 | Menu | Ai thấy | Dùng để |
 |---|---|---|
-| **Tìm hàng** | tất cả | tìm và lấy hàng *(giai đoạn 4–5)* |
+| **Tìm hàng** | tất cả | tìm hàng, xem vị trí & thông số; quản lý thêm/sửa mặt hàng (lấy hàng: giai đoạn 5) |
 | **Nhập hàng** | tất cả | nhập hàng vào kho *(giai đoạn 5)* |
 | **Lịch sử** | tất cả | xem ai lấy/nhập gì *(giai đoạn 7)* |
 | **Kho & Kệ** | tất cả | xem sơ đồ kho; quản lý sửa kho/khu/kệ |
@@ -146,6 +146,37 @@ Menu **Kho & Kệ**.
 Mã chỉ gồm chữ không dấu và số, tối đa 6 ký tự, tự viết hoa.
 
 ---
+
+## E2. Tìm hàng & xem mặt hàng (mọi người)
+
+Menu **Tìm hàng**.
+1. Gõ vào ô tìm: tên, mã, cỡ, hãng, vật liệu hoặc **mã kệ**. Gõ **không dấu** cũng được; ký hiệu Φ gõ là `phi` (vd `van phi8`). Kết quả hiện ngay khi ngừng gõ.
+2. Bấm nút **Bộ lọc** (biểu tượng thanh trượt) để lọc thêm: Kho, Loại hàng, Thương hiệu, Vật liệu, Xuất xứ, **Môi chất** (axit, kiềm, dầu…), **Chịu được nhiệt độ** (vd 250 → chỉ hiện hàng chịu được 250 °C), **Cỡ đầu nối** (vd Φ8), **Chỉ hàng còn trong kho**, **Sắp hết hàng**. Bấm **Bỏ hết bộ lọc** để xoá.
+3. Mỗi thẻ hàng cho biết: số còn (xanh = đủ, cam = sắp hết, đỏ = hết) và **mã vị trí** đang chứa (vd `K1-A-01-T2 (8)`).
+4. Bấm vào thẻ → trang mặt hàng: ảnh, tồn kho từng vị trí (Kho › Khu › Kệ › Tầng), bảng thông số, mô tả.
+
+> Có thể gửi đường link trang tìm kiếm cho đồng nghiệp — bộ lọc đi theo link.
+
+## E3. Thêm / sửa mặt hàng (ông chủ, quản trị)
+
+**Tìm hàng → Thêm mặt hàng**, hoặc trong trang mặt hàng bấm **Sửa mặt hàng**. Form có 5 phần; **chỉ phần 1 là bắt buộc**:
+
+| Phần | Nội dung | Ví dụ (van một chiều Φ8) |
+|---|---|---|
+| 1. Thông tin chính | Tên, loại hàng, đơn vị, mã nội bộ (bấm **Gợi ý mã tự động**), mã hãng, thương hiệu, xuất xứ, vật liệu, tiêu chuẩn | Van một chiều nối nhanh Φ8–Φ8 · Van · Cái · Nhựa PTFE · Tiêu chuẩn Đức |
+| 2. Thông số kỹ thuật | Đầu nối 1 & 2, áp suất tối đa, **nhiệt độ làm việc** (thấp nhất – cao nhất), **môi chất** (bấm chọn nhiều), thông số riêng theo loại hàng | Φ8 / Φ8 · -190 đến 280 °C · Axit, Kiềm, Hoá chất ăn mòn · Cỡ lục giác 19 |
+| 3. Kích thước & khối lượng | Dài × rộng × cao (mm), nặng (gam) của **1 đơn vị** | 78 × 24 mm |
+| 4. Hình ảnh | **Chọn ảnh từ máy** hoặc **Chụp ảnh** (điện thoại). Tối đa 8 ảnh, ảnh viền xanh là ảnh chính; **Đặt chính**, ← → để đổi thứ tự, 🗑 để bỏ | Ảnh sản phẩm, ảnh phiếu thông số |
+| 5. Mô tả & quản lý | Mô tả chi tiết, **tồn tối thiểu** (để báo sắp hết), ghi chú nội bộ | Tồn tối thiểu 5 |
+
+Bấm **Lưu mặt hàng** (thanh dưới cùng). Bấm **Huỷ** sẽ bỏ cả ảnh vừa tải.
+
+> **Xuất xứ** = nước sản xuất. **Tiêu chuẩn** = chuẩn chất lượng in trên hàng (vd hàng sản xuất ở Trung Quốc nhưng ghi "Tiêu chuẩn Đức"). Nên điền riêng hai ô này.
+
+**Ngừng kinh doanh**: trong trang mặt hàng → nút **Ngừng kinh doanh** (ẩn khỏi tìm kiếm, giữ lịch sử). Không có nút xoá mặt hàng.
+
+### Kích thước kệ
+Kho & Kệ → bấm kệ → **Sửa kệ / số tầng** → điền chiều ngang, sâu, cao và **tải trọng tối đa** mỗi tầng. Dùng để sau này cảnh báo khi cất hàng quá dài / quá nặng.
 
 ## F. Danh mục hàng hoá (ông chủ, quản trị)
 

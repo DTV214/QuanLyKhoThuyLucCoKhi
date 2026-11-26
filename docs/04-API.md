@@ -52,11 +52,17 @@ Không ai tự thao tác lên chính mình qua các action này; không ai thao 
 
 Đọc: `getCatalog()` (`queries.ts`).
 
-## products / search
-CRUD mặt hàng (giai đoạn 3); tìm kiếm qua `fn_search_products` (giai đoạn 4). ⏳
+## products (`src/features/products/actions.ts`)
+| Action | Quyền | Trạng thái |
+|---|---|---|
+| `saveProduct({ id?, sku, name, categoryId, unitId, …, specs, images[] })` → `{ id }` | owner, admin | ✅ |
+| `setProductActive({ id, active })` — ngừng / kinh doanh lại | owner, admin | ✅ |
+| `discardUploadedImages(publicIds[])` — dọn ảnh tải lên rồi huỷ | owner, admin | ✅ |
+
+Đọc: `searchProducts(filters)`, `getProduct(id)`, `getProductFormOptions()` (`queries.ts`).
 
 ## Route Handlers (`src/app/**/route.ts`)
 | Route | Mô tả | Trạng thái |
 |---|---|---|
 | `GET /auth/callback?code&next` | Đổi code trong link email thành phiên đăng nhập | ✅ |
-| `POST /api/upload/signature` | Ký upload Cloudinary (đã đăng nhập) | ⏳ |
+| `POST /api/upload/signature` | Ký upload ảnh mặt hàng lên Cloudinary (owner/admin; chỉ thư mục `…/mat-hang`, định dạng jpg/png/webp) | ✅ |

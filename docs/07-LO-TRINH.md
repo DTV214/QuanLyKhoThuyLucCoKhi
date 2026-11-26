@@ -8,8 +8,8 @@
 | 1 | Auth & người dùng | Đăng nhập, quên/đổi mật khẩu, tạo & khoá tài khoản, phân quyền | ✅ |
 | 2 | Kho & Kệ, Danh mục | Sơ đồ kho, kệ, tầng; loại hàng + thông số riêng; hãng, vật liệu… | ✅ |
 | **2.5** | **Responsive toàn bộ** | Menu "Thêm" trên điện thoại, hộp thoại toàn màn hình + nút dính đáy, bảng → thẻ, hàng lọc cuộn ngang. Ảnh mốc: `docs/screenshots/` | ✅ |
-| 3 | Mặt hàng | Thêm/sửa mặt hàng, thông số động theo loại, ảnh Cloudinary, **kích thước & khối lượng** (chuẩn bị cho AI) | 🔜 |
-| 4 | Tìm kiếm | Ô tìm không dấu, lọc chip, Ctrl+K | ⏳ |
+| 3 | Mặt hàng | Thêm/sửa mặt hàng, thông số động theo loại, ảnh Cloudinary, **kích thước & khối lượng** (chuẩn bị cho AI) | ✅ |
+| 4 | Tìm kiếm | ~~Ô tìm không dấu, bộ lọc~~ (đã làm sớm ở GĐ 3: môi chất, nhiệt độ, đầu nối, xuất xứ…). Còn: Ctrl+K, chip lọc nhanh, lưu bộ lọc hay dùng | 🔜 |
 | 5 | Nhập / lấy / chuyển / kiểm kê | Hộp xác nhận lấy hàng, phiếu nhập nhiều dòng | ⏳ |
 | 6 | Realtime & thông báo | Cập nhật tức thì, chuông thông báo, sắp hết hàng | ⏳ |
 | 7 | Dashboard & báo cáo | Biểu đồ, lịch sử, xuất Excel | ⏳ |
@@ -72,8 +72,8 @@ Ngoài ra:
 ### Dữ liệu cần chuẩn bị từ GĐ 2–3 (để AI khuyên được)
 | Ở đâu | Trường mới | Dùng cho |
 |---|---|---|
-| `racks` | chiều dài, sâu, cao mỗi tầng (cm); tải trọng tối đa mỗi tầng (kg) | so sánh với hàng |
-| `products` | dài × rộng × cao (cm), khối lượng 1 đơn vị (kg) | cảnh báo hàng quá dài/nặng |
+| `racks` | ✅ `level_width_mm`, `level_depth_mm`, `level_height_mm`, `level_max_load_kg` | so sánh với hàng |
+| `products` | ✅ `length_mm`, `width_mm`, `height_mm`, `weight_g`; `temp_min/max`, `pressure_max`, `media` | cảnh báo hàng quá dài/nặng; AI đọc thông số thật |
 | `products.specs` | áp suất, nhiệt độ… theo loại (đã có từ GĐ 2) | AI đọc thông số thật thay vì đoán |
 
 → Thêm vào migration của **GĐ 3**; form kệ thêm ô kích thước & tải trọng (không bắt buộc).

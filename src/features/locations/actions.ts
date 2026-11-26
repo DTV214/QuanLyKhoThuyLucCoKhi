@@ -51,7 +51,14 @@ export async function saveRack(input: unknown): Promise<ActionResult> {
   if (!(await authorizeAction(MANAGER_ROLES))) return fail(NO_PERMISSION);
   const parsed = rackSchema.safeParse(input);
   if (!parsed.success) return fromZodError(parsed.error);
-  const { id, zoneId, ...rest } = parsed.data;
+  const { id, zoneId, levelWidthMm, levelDepthMm, levelHeightMm, levelMaxLoadKg, ...base } = parsed.data;
+  const rest = {
+    ...base,
+    level_width_mm: levelWidthMm,
+    level_depth_mm: levelDepthMm,
+    level_height_mm: levelHeightMm,
+    level_max_load_kg: levelMaxLoadKg,
+  };
 
   const supabase = await createServerSupabase();
   // Thêm kệ: trigger tự tạo các tầng. Sửa số tầng: trigger thêm tầng / chặn bớt tầng còn hàng.

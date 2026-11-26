@@ -54,6 +54,12 @@ Mã lỗi: `42501` không có quyền · `P0001` không đủ hàng · `P0002` k
 | `*_refresh_codes` | Đổi mã kho/khu/kệ → sinh lại mã vị trí |
 | View `v_location_stock` | Số mặt hàng + tổng số lượng trên mỗi vị trí |
 
+## Mặt hàng chi tiết (migration 005)
+- `products`: `quality_standard`, `connection_a/b`, `temp_min/max` (°C, ràng buộc min ≤ max), `pressure_max` (bar), `media text[]` (GIN index), `length/width/height_mm`, `weight_g`, `images jsonb` (≤ 8; trigger `products_main_image` chép ảnh đầu sang `image_url`), `description`.
+- `racks`: `level_width_mm`, `level_depth_mm`, `level_height_mm`, `level_max_load_kg`.
+- `f_norm(text)`: bỏ dấu + `Φ/Ø → phi` → tìm "phi8" ra "Φ8".
+- `fn_search_products` thêm tham số: `p_country_id`, `p_media`, `p_temperature`, `p_connection`, `p_in_stock`; trả thêm thông số + `total_count`.
+
 ## RLS tóm tắt
 - Danh mục + mặt hàng + tồn kho: ai đang `active` đều **xem**; chỉ owner/admin **thêm/sửa**; chỉ owner **xoá**.
 - `inventory`, `stock_movements`, `audit_logs`: client **không có quyền ghi** (đã `revoke`).

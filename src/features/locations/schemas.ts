@@ -38,6 +38,13 @@ export const zoneSchema = z.object({
   description: optText(500),
 });
 
+/** Ô số không bắt buộc, > 0 */
+const optPositive = (label: string) =>
+  z
+    .union([z.number(), z.string(), z.null(), z.undefined()])
+    .transform((v) => (v === null || v === undefined || v === "" ? null : Number(v)))
+    .refine((v) => v === null || (Number.isFinite(v) && v > 0 && v < 1_000_000), `${label} phải là số lớn hơn 0`);
+
 export const rackSchema = z.object({
   id: optId,
   zoneId: z.uuid({ error: "Vui lòng chọn khu vực" }),
@@ -49,6 +56,10 @@ export const rackSchema = z.object({
     .min(1, "Ít nhất 1 tầng")
     .max(20, "Tối đa 20 tầng"),
   description: optText(500),
+  levelWidthMm: optPositive("Chiều ngang tầng"),
+  levelDepthMm: optPositive("Chiều sâu tầng"),
+  levelHeightMm: optPositive("Chiều cao tầng"),
+  levelMaxLoadKg: optPositive("Tải trọng"),
 });
 
 export const setActiveSchema = z.object({

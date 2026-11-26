@@ -16,6 +16,11 @@ export type RackNode = {
   levels: number;
   description: string | null;
   isActive: boolean;
+  /** Kích thước & tải trọng mỗi tầng (để cảnh báo hàng quá dài / nặng) */
+  levelWidthMm: number | null;
+  levelDepthMm: number | null;
+  levelHeightMm: number | null;
+  levelMaxLoadKg: number | null;
   locations: LocationNode[];
   productCount: number;
 };
