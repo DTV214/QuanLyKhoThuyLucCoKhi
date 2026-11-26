@@ -2,6 +2,8 @@
 
 Web app nội bộ quản lý kho linh kiện thủy lực, khí nén, cơ khí — Next.js 15 + Supabase + Cloudinary.
 
+Đây là GitHub quản lý kho của Công ty Thành Danh VMC.
+
 ## Bắt đầu
 1. Cài Node.js ≥ 20, rồi `npm install`.
 2. `copy .env.example .env.local` và điền khoá (Supabase URL, anon key, service role key, DATABASE_URL).
