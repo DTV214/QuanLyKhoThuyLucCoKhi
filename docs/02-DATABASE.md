@@ -55,8 +55,8 @@ Mã lỗi: `42501` không có quyền · `P0001` không đủ hàng · `P0002` k
 ## Cách cài lên Supabase
 1. Tạo project tại supabase.com (region Singapore).
 2. Authentication → Providers → Email: **tắt "Allow new users to sign up"**, bật "Confirm email".
-3. SQL Editor → chạy lần lượt 3 file migration → chạy `seed.sql`.
-   (hoặc dùng Supabase CLI: `npx supabase link` rồi `npx supabase db push`)
+3. Điền `DATABASE_URL` trong `.env.local` rồi chạy `npm run db:migrate` (mỗi migration chạy 1 lần, ghi trong bảng `_migrations`; `seed.sql` chạy lại an toàn).
+   Cách khác: SQL Editor → dán lần lượt 3 file migration → `seed.sql`.
 4. Chạy `npm run seed:owner` để tạo tài khoản ông chủ.
 
 ## Đã kiểm thử

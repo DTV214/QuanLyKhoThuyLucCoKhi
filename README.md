@@ -4,9 +4,9 @@ Web app nội bộ quản lý kho linh kiện thủy lực, khí nén, cơ khí 
 
 ## Bắt đầu
 1. Cài Node.js ≥ 20, rồi `npm install`.
-2. Tạo project Supabase, chạy SQL trong `supabase/migrations/` theo thứ tự rồi `supabase/seed.sql` (xem `docs/02-DATABASE.md`).
-   Trong Supabase → Authentication → Email: **tắt "Allow new users to sign up"**.
-3. `copy .env.example .env.local` và điền khoá.
+2. `copy .env.example .env.local` và điền khoá (Supabase URL, anon key, service role key, DATABASE_URL).
+3. `npm run db:migrate` — tạo bảng, hàm, phân quyền và dữ liệu mẫu trên Supabase (xem `docs/02-DATABASE.md`).
+   Trong Supabase → Authentication → Sign In / Providers → Email: **tắt "Allow new users to sign up"**.
 4. `npm run seed:owner` — tạo tài khoản Ông chủ.
 5. `npm run dev` → http://localhost:3000
 
