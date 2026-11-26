@@ -33,8 +33,27 @@ Không ai tự thao tác lên chính mình qua các action này; không ai thao 
 | `adjustStock(...)` | `fn_adjust` | owner, admin | ⏳ |
 | `reverseMovement(id, reason)` | `fn_reverse_movement` | owner, admin | ⏳ |
 
-## products / locations / search
-CRUD mặt hàng, kho/khu/kệ, danh mục (owner/admin); tìm kiếm qua `fn_search_products`. ⏳
+## locations (`src/features/locations/actions.ts`) — owner, admin
+| Action | Mô tả | Trạng thái |
+|---|---|---|
+| `saveWarehouse({ id?, code, name, address?, description? })` | Thêm / sửa kho | ✅ |
+| `saveZone({ id?, warehouseId, code, name, description? })` | Thêm / sửa khu vực | ✅ |
+| `saveRack({ id?, zoneId, code, levels, name?, description? })` | Thêm kệ (tự tạo tầng) / sửa, đổi số tầng | ✅ |
+| `setActive({ entity: warehouses\|zones\|racks, id, active })` | Ngừng dùng / dùng lại (chặn khi còn hàng) | ✅ |
+
+Đọc: `getWarehouseTree()` (`queries.ts`).
+
+## catalog (`src/features/catalog/actions.ts`)
+| Action | Quyền | Trạng thái |
+|---|---|---|
+| `saveLookup(table, { id?, ... })` — brands, materials, countries, units, suppliers | owner, admin | ✅ |
+| `saveCategory({ id?, code, name, parentId?, sortOrder, specSchema[] })` | owner, admin | ✅ |
+| `deleteCatalogItem({ table, id })` — chỉ khi chưa dùng | owner | ✅ |
+
+Đọc: `getCatalog()` (`queries.ts`).
+
+## products / search
+CRUD mặt hàng (giai đoạn 3); tìm kiếm qua `fn_search_products` (giai đoạn 4). ⏳
 
 ## Route Handlers (`src/app/**/route.ts`)
 | Route | Mô tả | Trạng thái |

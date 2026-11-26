@@ -45,6 +45,15 @@ profiles (role, status) ────────┴── user_id     notificati
 
 Mã lỗi: `42501` không có quyền · `P0001` không đủ hàng · `P0002` không tìm thấy · `22023` dữ liệu sai. Hàm `mapDbError()` (`src/lib/action-result.ts`) đổi sang câu tiếng Việt.
 
+## Trigger quản lý sơ đồ kho (migration 004)
+| Trigger | Việc |
+|---|---|
+| `racks_create_levels` | Thêm kệ → tạo đủ tầng |
+| `racks_sync_levels` | Tăng số tầng → thêm tầng; giảm → ngừng tầng thừa (chặn nếu còn hàng) |
+| `*_guard_deactivate` | Ngừng kho/khu/kệ → chặn nếu còn hàng |
+| `*_refresh_codes` | Đổi mã kho/khu/kệ → sinh lại mã vị trí |
+| View `v_location_stock` | Số mặt hàng + tổng số lượng trên mỗi vị trí |
+
 ## RLS tóm tắt
 - Danh mục + mặt hàng + tồn kho: ai đang `active` đều **xem**; chỉ owner/admin **thêm/sửa**; chỉ owner **xoá**.
 - `inventory`, `stock_movements`, `audit_logs`: client **không có quyền ghi** (đã `revoke`).

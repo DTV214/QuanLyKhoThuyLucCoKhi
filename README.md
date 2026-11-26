@@ -20,3 +20,4 @@ Web app nội bộ quản lý kho linh kiện thủy lực, khí nén, cơ khí 
 - `docs/03-PHAN-QUYEN.md` — phân quyền
 - `docs/04-API.md` — Server Actions
 - `docs/05-HUONG-DAN-NODEJS.md` — Node.js cho người mới
+- `docs/06-HUONG-DAN-SU-DUNG.md` — **hướng dẫn cài đặt, đăng nhập và thao tác**

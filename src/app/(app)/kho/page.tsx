@@ -1,14 +1,37 @@
 import type { Metadata } from "next";
-import { ComingSoon } from "@/components/common/coming-soon";
+import { Tags } from "lucide-react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { WarehouseMap } from "@/features/locations";
+import { getWarehouseTree } from "@/features/locations/queries";
+import { isManager } from "@/lib/roles";
+import { requireUser } from "@/server/auth/guard";
 
 export const metadata: Metadata = { title: "Kho & Kệ" };
 
-export default function Page() {
+export default async function WarehousePage() {
+  const user = await requireUser();
+  const tree = await getWarehouseTree();
+  const canEdit = isManager(user.role);
+
   return (
-    <ComingSoon
-      title="Kho & Kệ"
-      phase="Giai đoạn 2"
-      items={["Kho 1 – Trong nhà, Kho 2 – Kho lớn", "Thêm khu vực, kệ, số tầng; mã vị trí tự sinh (K1-A-03-T2)", "Xem kệ đang chứa những hàng gì"]}
-    />
+    <div className="mx-auto max-w-7xl space-y-6">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <h1 className="text-3xl font-bold">Kho & Kệ</h1>
+          <p className="text-base text-muted-foreground">
+            Sơ đồ Kho → Khu vực → Kệ → Tầng. Bấm vào một kệ để xem từng tầng và mã vị trí.
+          </p>
+        </div>
+        {canEdit && (
+          <Button asChild variant="outline" size="xl">
+            <Link href="/danh-muc">
+              <Tags /> Danh mục hàng hoá
+            </Link>
+          </Button>
+        )}
+      </div>
+      <WarehouseMap tree={tree} canEdit={canEdit} />
+    </div>
   );
 }

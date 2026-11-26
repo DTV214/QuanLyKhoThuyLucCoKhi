@@ -4,15 +4,16 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { Role } from "@/lib/roles";
 import { cn } from "@/lib/utils";
-import { navFor } from "./nav-items";
+import { isNavActive, navFor } from "./nav-items";
 
 /** Menu dọc (máy tính) */
 export function SideNav({ role }: { role: Role }) {
   const pathname = usePathname();
   return (
     <nav className="space-y-1">
-      {navFor(role).map(({ href, label, icon: Icon }) => {
-        const active = pathname === href || pathname.startsWith(`${href}/`);
+      {navFor(role).map((item) => {
+        const { href, label, icon: Icon } = item;
+        const active = isNavActive(item, pathname);
         return (
           <Link
             key={href}
@@ -41,8 +42,9 @@ export function BottomNav({ role }: { role: Role }) {
     <nav className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-4 border-t bg-background/95 backdrop-blur lg:hidden">
       {navFor(role)
         .slice(0, 4)
-        .map(({ href, label, icon: Icon }) => {
-          const active = pathname === href || pathname.startsWith(`${href}/`);
+        .map((item) => {
+          const { href, label, icon: Icon } = item;
+          const active = isNavActive(item, pathname);
           return (
             <Link
               key={href}
