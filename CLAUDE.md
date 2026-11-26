@@ -31,9 +31,9 @@ docs/            tài liệu cho người và cho AI
 ## Quy tắc bắt buộc
 1. **Không bao giờ UPDATE bảng `inventory` trực tiếp.** Mọi thay đổi số lượng đi qua RPC Postgres: `fn_stock_in`, `fn_stock_out`, `fn_transfer`, `fn_adjust`, `fn_reverse_movement`.
 2. `stock_movements` và `audit_logs` chỉ INSERT — không sửa, không xoá. Sửa sai bằng **phiếu đảo** (`fn_reverse_movement`).
-3. Mọi Server Action bắt đầu bằng `await requireUser()` hoặc `await requireRole([...])` (`src/server/auth/guard.ts`), sau đó `schema.parse(input)`.
+3. Page/layout: `await requireUser()` / `await requireRole([...])` (redirect). Server Action: `const actor = await authorizeAction([...]); if (!actor) return fail(...)` rồi `schema.safeParse(input)` (`src/server/auth/guard.ts`).
 4. File trong `src/server/**` có `import "server-only"`. `SUPABASE_SERVICE_ROLE_KEY`, `CLOUDINARY_API_SECRET` chỉ được đọc ở đây.
-5. Feature chỉ import feature khác qua `@/features/<x>` (file `index.ts`), không import sâu vào bên trong.
+5. Import feature khác qua `@/features/<x>` (`index.ts`, chỉ chứa thứ an toàn cho client). Riêng code server (page/action) được import thêm `@/features/<x>/queries` và `@/features/<x>/actions`. Không import sâu vào `components/` của feature khác.
 6. Toàn bộ chữ trên giao diện là **tiếng Việt**. Route dùng tiếng Việt không dấu (`/tim-hang`, `/nhap-hang`).
 7. UX cho người lớn tuổi: chữ ≥ 16px, nút chính `size="lg"` (cao ≥ 44px), icon luôn đi kèm chữ, mọi thao tác trừ kho phải có hộp xác nhận hiển thị rõ **vị trí + số lượng + tồn còn lại**.
 8. Ngày nhập/xuất mặc định **hôm nay** (`todayISO()` trong `src/lib/date.ts`, múi giờ Asia/Ho_Chi_Minh).

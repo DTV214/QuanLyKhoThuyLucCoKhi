@@ -1,4 +1,5 @@
 import { LogOut } from "lucide-react";
+import Link from "next/link";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -14,15 +15,17 @@ function initials(name: string) {
 export function UserMenu({ user }: { user: CurrentUser }) {
   return (
     <div className="flex items-center gap-3">
-      <Avatar className="size-10">
-        <AvatarFallback className="bg-accent font-semibold text-accent-foreground">{initials(user.fullName)}</AvatarFallback>
-      </Avatar>
-      <div className="hidden leading-tight sm:block">
+      <Link href="/tai-khoan" aria-label="Tài khoản của tôi">
+        <Avatar className="size-10">
+          <AvatarFallback className="bg-accent font-semibold text-accent-foreground">{initials(user.fullName)}</AvatarFallback>
+        </Avatar>
+      </Link>
+      <Link href="/tai-khoan" className="hidden rounded-lg px-2 py-1 leading-tight hover:bg-muted sm:block" title="Tài khoản của tôi">
         <div className="font-semibold">{user.fullName}</div>
         <Badge variant="secondary" className="mt-0.5">
           {ROLE_LABEL[user.role]}
         </Badge>
-      </div>
+      </Link>
       <form action={signOut}>
         <Button type="submit" variant="outline" size="lg">
           <LogOut />

@@ -8,7 +8,7 @@ export function todayISO(): string {
 /** 26/11/2026 */
 export function formatDate(value: string | Date): string {
   const d = typeof value === "string" ? new Date(value) : value;
-  return new Intl.DateTimeFormat("vi-VN", { timeZone: TZ, dateStyle: "short" }).format(d);
+  return new Intl.DateTimeFormat("vi-VN", { timeZone: TZ, day: "2-digit", month: "2-digit", year: "numeric" }).format(d);
 }
 
 /** 26/11/2026 14:05 */

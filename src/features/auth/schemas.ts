@@ -25,6 +25,15 @@ export const setPasswordSchema = z
   })
   .refine((v) => v.password === v.confirm, { path: ["confirm"], message: "Hai mật khẩu không khớp" });
 
+export const changePasswordSchema = z
+  .object({
+    current: z.string().min(1, "Vui lòng nhập mật khẩu hiện tại"),
+    password: newPasswordField,
+    confirm: z.string(),
+  })
+  .refine((v) => v.password === v.confirm, { path: ["confirm"], message: "Hai mật khẩu không khớp" })
+  .refine((v) => v.password !== v.current, { path: ["password"], message: "Mật khẩu mới phải khác mật khẩu cũ" });
+
 export type SignInInput = z.infer<typeof signInSchema>;
 export type ForgotPasswordInput = z.infer<typeof forgotPasswordSchema>;
 export type SetPasswordInput = z.infer<typeof setPasswordSchema>;

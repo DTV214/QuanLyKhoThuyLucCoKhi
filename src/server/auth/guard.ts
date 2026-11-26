@@ -50,6 +50,17 @@ export async function requireUser(options: { allowPasswordChange?: boolean } = {
   return user;
 }
 
+/**
+ * Dùng trong Server Action: trả về người dùng nếu đủ quyền, ngược lại null
+ * (action tự trả fail(...) thay vì redirect).
+ */
+export async function authorizeAction(roles?: Role[]): Promise<CurrentUser | null> {
+  const user = await getCurrentUser();
+  if (!user || user.mustChangePassword) return null;
+  if (roles && !roles.includes(user.role)) return null;
+  return user;
+}
+
 /** Bắt buộc có 1 trong các role. Sai role → về trang chủ */
 export async function requireRole(roles: Role[]) {
   const user = await requireUser();

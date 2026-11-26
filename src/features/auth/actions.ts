@@ -6,9 +6,20 @@ import { isSupabaseConfigured, publicEnv } from "@/lib/env";
 import { getCurrentUser } from "@/server/auth/guard";
 import { createAdminSupabase } from "@/server/supabase/admin";
 import { createServerSupabase } from "@/server/supabase/server";
-import { forgotPasswordSchema, setPasswordSchema, signInSchema } from "./schemas";
+import { changePasswordSchema, forgotPasswordSchema, setPasswordSchema, signInSchema } from "./schemas";
 
 const NOT_CONFIGURED = "Hệ thống chưa được cấu hình Supabase (.env.local)";
+
+const RECOVERY_WINDOW_SECONDS = 15 * 60;
+
+/** Phiên hiện tại có được tạo từ link khôi phục mật khẩu trong 15 phút gần đây không (AMR "recovery") */
+async function isRecentRecoverySession(supabase: Awaited<ReturnType<typeof createServerSupabase>>) {
+  const { data } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+  const now = Math.floor(Date.now() / 1000);
+  return (data?.currentAuthenticationMethods ?? []).some(
+    (m) => typeof m === "object" && m.method === "recovery" && now - m.timestamp < RECOVERY_WINDOW_SECONDS,
+  );
+}
 
 /** Chỉ cho chuyển hướng nội bộ, chống open-redirect */
 function safeNext(next?: string) {
@@ -78,6 +89,13 @@ export async function setNewPassword(input: unknown): Promise<ActionResult<{ red
   if (!user) return fail("Phiên đã hết hạn. Vui lòng mở lại link trong email hoặc đăng nhập lại.");
 
   const supabase = await createServerSupabase();
+
+  // Không cần mật khẩu cũ CHỈ KHI: đang đổi mật khẩu lần đầu, hoặc vừa vào từ link khôi phục.
+  // Trường hợp khác phải dùng changeOwnPassword (nhập mật khẩu hiện tại).
+  if (!user.mustChangePassword && !(await isRecentRecoverySession(supabase))) {
+    return fail("Link đặt lại mật khẩu đã hết hạn. Vui lòng yêu cầu link mới hoặc đổi mật khẩu trong trang Tài khoản.");
+  }
+
   const { error } = await supabase.auth.updateUser({ password: parsed.data.password });
   if (error) {
     if (error.code === "same_password") return fail("Mật khẩu mới phải khác mật khẩu cũ");
@@ -88,4 +106,28 @@ export async function setNewPassword(input: unknown): Promise<ActionResult<{ red
     await createAdminSupabase().from("profiles").update({ must_change_password: false }).eq("id", user.id);
   }
   return ok({ redirectTo: "/tim-hang" }, "Đã đổi mật khẩu thành công");
+}
+
+/** Người dùng tự đổi mật khẩu (phải nhập đúng mật khẩu hiện tại) */
+export async function changeOwnPassword(input: unknown): Promise<ActionResult> {
+  if (!isSupabaseConfigured) return fail(NOT_CONFIGURED);
+  const parsed = changePasswordSchema.safeParse(input);
+  if (!parsed.success) return fromZodError(parsed.error);
+
+  const user = await getCurrentUser();
+  if (!user) return fail("Phiên đã hết hạn, vui lòng đăng nhập lại");
+
+  const supabase = await createServerSupabase();
+  // Xác minh mật khẩu hiện tại bằng cách đăng nhập lại (cùng tài khoản, làm mới phiên)
+  const { error: verifyError } = await supabase.auth.signInWithPassword({
+    email: user.email,
+    password: parsed.data.current,
+  });
+  if (verifyError) {
+    return fail("Mật khẩu hiện tại không đúng", { current: ["Mật khẩu hiện tại không đúng"] });
+  }
+
+  const { error } = await supabase.auth.updateUser({ password: parsed.data.password });
+  if (error) return fail("Không đổi được mật khẩu, vui lòng thử lại");
+  return ok(undefined, "Đã đổi mật khẩu");
 }

@@ -9,15 +9,20 @@ Cột "Trạng thái": ✅ đã có · ⏳ theo lộ trình.
 | `signIn({ email, password, next? })` | công khai | Đăng nhập; trả `redirectTo` | ✅ |
 | `signOut()` | đã đăng nhập | Đăng xuất | ✅ |
 | `requestPasswordReset({ email })` | công khai | Gửi email đặt lại (luôn báo thành công) | ✅ |
-| `setNewPassword({ password, confirm })` | đã đăng nhập / link email | Đặt mật khẩu mới, tắt `must_change_password` | ✅ |
+| `setNewPassword({ password, confirm })` | lần đăng nhập đầu, hoặc phiên từ link khôi phục (< 15 phút) | Đặt mật khẩu mới không cần mật khẩu cũ, tắt `must_change_password` | ✅ |
+| `changeOwnPassword({ current, password, confirm })` | đã đăng nhập | Tự đổi mật khẩu, phải nhập đúng mật khẩu hiện tại (trang `/tai-khoan`) | ✅ |
 
 ## users (`src/features/users/actions.ts`)
 | Action | Quyền | Trạng thái |
 |---|---|---|
-| `createUser({ fullName, email, phone?, role })` → mật khẩu tạm | owner (mọi role), admin (staff) | ⏳ |
-| `setUserLocked(id, locked)` (kèm ban trong Supabase Auth) | như trên | ⏳ |
-| `changeUserRole(id, role)` | owner | ⏳ |
-| `resetUserPassword(id)` → mật khẩu tạm mới | như trên | ⏳ |
+| `createUser({ fullName, email, phone?, role })` → `{ email, fullName, tempPassword }` | owner (admin + staff), admin (staff) | ✅ |
+| `updateUserInfo({ id, fullName, phone? })` | như trên | ✅ |
+| `setUserLocked({ id, locked })` — `profiles.status` + ban trong Supabase Auth | như trên | ✅ |
+| `resetUserPassword({ id })` → mật khẩu tạm mới, bắt đổi lại | như trên | ✅ |
+| `changeUserRole({ id, role })` — chỉ `admin`/`staff` | owner | ✅ |
+
+Không ai tự thao tác lên chính mình qua các action này; không ai thao tác lên ông chủ.
+Đọc danh sách: `listUsers()` trong `queries.ts` (server, RLS).
 
 ## inventory (`src/features/inventory/actions.ts`) — gọi RPC trong `docs/02-DATABASE.md`
 | Action | RPC | Quyền | Trạng thái |
