@@ -27,11 +27,12 @@ Không ai tự thao tác lên chính mình qua các action này; không ai thao 
 ## inventory (`src/features/inventory/actions.ts`) — gọi RPC trong `docs/02-DATABASE.md`
 | Action | RPC | Quyền | Trạng thái |
 |---|---|---|---|
-| `takeStock({ productId, locationId, quantity, date?, note? })` | `fn_stock_out` | mọi role | ⏳ |
-| `receiveStock({ date, supplierId?, referenceNo?, lines[] })` | `fn_stock_in` × n | mọi role | ⏳ |
-| `transferStock(...)` | `fn_transfer` | mọi role | ⏳ |
-| `adjustStock(...)` | `fn_adjust` | owner, admin | ⏳ |
-| `reverseMovement(id, reason)` | `fn_reverse_movement` | owner, admin | ⏳ |
+| `takeStock({ productId, locationId, quantity, date?, note? })` | `fn_stock_out` | mọi role | ✅ |
+| `createReceipt({ date?, supplierId?, referenceNo?, note?, lines[] })` | `fn_create_receipt` (1 giao dịch) | mọi role | ✅ |
+| `transferStock({ productId, fromLocationId, toLocationId, quantity, date?, note? })` | `fn_transfer` | mọi role | ✅ |
+| `adjustStock({ productId, locationId, counted, reason })` | `fn_adjust` | owner, admin | ✅ |
+| `quickSearchProducts(q)` → `QuickProduct[]` | `fn_search_products` | mọi role | ✅ |
+| `reverseMovement(id, reason)` | `fn_reverse_movement` | owner, admin | ⏳ (GĐ 7, trang Lịch sử) |
 
 ## locations (`src/features/locations/actions.ts`) — owner, admin
 | Action | Mô tả | Trạng thái |

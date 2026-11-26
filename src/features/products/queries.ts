@@ -2,7 +2,7 @@ import "server-only";
 
 import type { SpecField } from "@/features/catalog";
 import { createServerSupabase } from "@/server/supabase/server";
-import type { SearchFilters, ProductImage } from "./schemas";
+import type { ExtraSpec, ProductImage, SearchFilters } from "./schemas";
 
 export type Option = { id: string; name: string; code?: string };
 export type CategoryOption = Option & { code: string; parentId: string | null; specSchema: SpecField[] };
@@ -146,6 +146,7 @@ export type ProductDetail = {
   minStock: number;
   specs: Record<string, string | number>;
   specSchema: SpecField[];
+  extraSpecs: ExtraSpec[];
   images: ProductImage[];
   description: string | null;
   note: string | null;
@@ -230,6 +231,7 @@ export async function getProduct(id: string): Promise<ProductDetail | null> {
     minStock: Number(p.min_stock),
     specs: p.specs ?? {},
     specSchema: (p.categories?.spec_schema ?? []) as SpecField[],
+    extraSpecs: (p.extra_specs ?? []) as ExtraSpec[],
     images: (p.images ?? []) as ProductImage[],
     description: p.description,
     note: p.note,

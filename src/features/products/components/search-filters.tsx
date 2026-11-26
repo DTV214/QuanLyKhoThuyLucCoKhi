@@ -6,6 +6,7 @@ import { useEffect, useRef, useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { SCROLL_ROW } from "@/lib/ui-classes";
 import { cn } from "@/lib/utils";
 import { CONNECTION_OPTIONS, MEDIA_OPTIONS } from "../constants";
 import type { ProductFormOptions } from "../queries";
@@ -84,6 +85,17 @@ export function SearchFilters({ options }: { options: ProductFormOptions }) {
         </Button>
       </div>
 
+      {/* Lọc nhanh 1 chạm */}
+      <div className={SCROLL_ROW}>
+        {options.warehouses.map((w) => (
+          <Toggle key={w.id} on={params.get("kho") === w.id} onClick={() => update({ kho: params.get("kho") === w.id ? null : w.id })}>
+            {w.name}
+          </Toggle>
+        ))}
+        <Toggle on={params.get("conhang") === "1"} onClick={() => update({ conhang: params.get("conhang") ? null : "1" })}>Còn hàng</Toggle>
+        <Toggle on={params.get("saphet") === "1"} onClick={() => update({ saphet: params.get("saphet") ? null : "1" })}>Sắp hết</Toggle>
+      </div>
+
       {open && (
         <div className="space-y-4 rounded-2xl border bg-background p-4">
           <div className="grid grid-cols-2 gap-3 lg:grid-cols-3 xl:grid-cols-5">
@@ -131,7 +143,7 @@ export function SearchFilters({ options }: { options: ProductFormOptions }) {
 function Toggle({ on, onClick, children }: { on: boolean; onClick: () => void; children: React.ReactNode }) {
   return (
     <button type="button" aria-pressed={on} onClick={onClick}
-      className={cn("h-11 rounded-full border px-4 text-base", on ? "border-primary bg-primary text-primary-foreground" : "hover:bg-muted")}>
+      className={cn("h-11 shrink-0 rounded-full border px-4 text-base whitespace-nowrap", on ? "border-primary bg-primary text-primary-foreground" : "bg-background hover:bg-muted")}>
       {on && "✓ "}{children}
     </button>
   );

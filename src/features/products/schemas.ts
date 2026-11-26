@@ -49,6 +49,13 @@ export const productImageSchema = z.object({
 });
 export type ProductImage = z.infer<typeof productImageSchema>;
 
+/** Thông số khác: tên – giá trị tự do (cho hàng có thông số lạ) */
+export const extraSpecSchema = z.object({
+  label: z.string().trim().min(1, "Thiếu tên thông số").max(60, "Tên thông số tối đa 60 ký tự"),
+  value: z.string().trim().min(1, "Thiếu giá trị").max(200, "Giá trị tối đa 200 ký tự"),
+});
+export type ExtraSpec = z.infer<typeof extraSpecSchema>;
+
 export const productSchema = z
   .object({
     id: optId,
@@ -80,6 +87,13 @@ export const productSchema = z
     weightG: optNum({ label: "Khối lượng", positive: true, max: 10000000 }),
     minStock: optNum({ label: "Tồn tối thiểu", min: 0, max: 10000000 }).transform((v) => v ?? 0),
     specs: z.record(z.string(), z.union([z.string(), z.number()])).default({}),
+    extraSpecs: z
+      .array(z.object({ label: z.string(), value: z.string() }))
+      .max(30, "Tối đa 30 thông số khác")
+      .default([])
+      // bỏ dòng trống hoàn toàn trước khi kiểm tra
+      .transform((rows) => rows.filter((r) => r.label.trim() || r.value.trim()))
+      .pipe(z.array(extraSpecSchema)),
     images: z.array(productImageSchema).max(MAX_IMAGES, `Tối đa ${MAX_IMAGES} ảnh`).default([]),
     description: optText(4000),
     note: optText(1000),

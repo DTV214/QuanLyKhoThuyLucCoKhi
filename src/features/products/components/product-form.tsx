@@ -1,6 +1,6 @@
 "use client";
 
-import { Plus, Save, Sparkles, X } from "lucide-react";
+import { Plus, Save, Sparkles, Trash2, X } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useId, useMemo, useState, useTransition } from "react";
@@ -43,6 +43,7 @@ type State = {
   weightG: string;
   minStock: string;
   specs: Record<string, string>;
+  extraSpecs: { label: string; value: string }[];
   images: ProductImage[];
   description: string;
   note: string;
@@ -75,6 +76,7 @@ function initialState(p: ProductDetail | null, options: ProductFormOptions): Sta
     weightG: s(p?.weightG),
     minStock: s(p?.minStock ?? 0),
     specs: Object.fromEntries(Object.entries(p?.specs ?? {}).map(([k, v]) => [k, String(v)])),
+    extraSpecs: p?.extraSpecs ?? [],
     images: p?.images ?? [],
     description: s(p?.description),
     note: s(p?.note),
@@ -248,6 +250,34 @@ export function ProductForm({ product, options }: { product: ProductDetail | nul
             </Grid>
           </div>
         )}
+        <div className="space-y-3">
+          <div>
+            <Label className="text-base font-medium">Thông số khác (không bắt buộc)</Label>
+            <p className="text-sm text-muted-foreground">
+              Hàng có thông số không nằm ở các ô trên? Thêm dòng “Tên – Giá trị”, hoặc ghi vào phần Mô tả. Vẫn tìm kiếm được.
+            </p>
+          </div>
+          {v.extraSpecs.map((row, i) => (
+            <div key={i} className="grid grid-cols-[1fr_auto] gap-2 sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)_auto]">
+              <Input aria-label={`Tên thông số ${i + 1}`} placeholder="Tên, vd: Kích thước lục giác" value={row.label}
+                onChange={(e) => set("extraSpecs", v.extraSpecs.map((r, j) => (j === i ? { ...r, label: e.target.value } : r)))}
+                className="col-span-2 h-12 rounded-xl px-4 text-base sm:col-span-1" />
+              <Input aria-label={`Giá trị thông số ${i + 1}`} placeholder="Giá trị, vd: 19 mm" value={row.value}
+                onChange={(e) => set("extraSpecs", v.extraSpecs.map((r, j) => (j === i ? { ...r, value: e.target.value } : r)))}
+                className="h-12 rounded-xl px-4 text-base" />
+              <Button type="button" variant="ghost" size="icon-lg" className="size-12 text-destructive" aria-label={`Bỏ dòng ${i + 1}`}
+                onClick={() => set("extraSpecs", v.extraSpecs.filter((_, j) => j !== i))}>
+                <Trash2 />
+              </Button>
+            </div>
+          ))}
+          {errors.extraSpecs && <p className="text-sm font-medium text-destructive">{errors.extraSpecs}</p>}
+          {v.extraSpecs.length < 30 && (
+            <Button type="button" variant="outline" size="lg" onClick={() => set("extraSpecs", [...v.extraSpecs, { label: "", value: "" }])}>
+              <Plus /> Thêm thông số khác
+            </Button>
+          )}
+        </div>
       </Section>
 
       {/* 3. Kích thước */}

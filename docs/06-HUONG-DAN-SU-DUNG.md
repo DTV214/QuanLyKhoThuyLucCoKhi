@@ -84,8 +84,8 @@ Máy tính: bấm **Đăng xuất** ở góc trên bên phải. Điện thoại:
 
 | Menu | Ai thấy | Dùng để |
 |---|---|---|
-| **Tìm hàng** | tất cả | tìm hàng, xem vị trí & thông số; quản lý thêm/sửa mặt hàng (lấy hàng: giai đoạn 5) |
-| **Nhập hàng** | tất cả | nhập hàng vào kho *(giai đoạn 5)* |
+| **Tìm hàng** | tất cả | tìm hàng, xem vị trí & thông số, **lấy hàng**, chuyển; quản lý thêm/sửa mặt hàng, kiểm kê |
+| **Nhập hàng** | tất cả | phiếu nhập nhiều dòng |
 | **Lịch sử** | tất cả | xem ai lấy/nhập gì *(giai đoạn 7)* |
 | **Kho & Kệ** | tất cả | xem sơ đồ kho; quản lý sửa kho/khu/kệ |
 | **Báo cáo** | ông chủ, quản trị | *(giai đoạn 7)* |
@@ -157,6 +157,31 @@ Menu **Tìm hàng**.
 
 > Có thể gửi đường link trang tìm kiếm cho đồng nghiệp — bộ lọc đi theo link.
 
+## E2b. Tìm nhanh từ bất kỳ trang nào
+Bấm nút **🔍 Tìm nhanh** trên thanh đầu trang (máy tính: phím **Ctrl + K**). Gõ tên/mã → bấm vào mặt hàng để mở, hoặc **Xem tất cả kết quả**.
+
+## E2c. Lấy hàng (mọi người)
+1. Tìm hàng → bấm vào mặt hàng. Phần **Tồn kho** liệt kê từng vị trí (vd **K1-A-01-T2** = Kho 1, Khu A, Kệ 01, Tầng 2) và số lượng.
+2. Đi đến đúng vị trí đó, bấm **Lấy hàng** ở dòng vị trí.
+3. Nhập số lượng bằng nút **−** / **+** (hoặc gõ số; **Lấy hết** để lấy toàn bộ). Ô "Lấy cho việc gì?" ghi công trình/khách (không bắt buộc). Ngày mặc định hôm nay.
+4. Bấm **Tiếp tục** → màn hình **kiểm tra lại**: vị trí, số lấy, số còn lại. Đúng thì bấm **Xác nhận lấy …**, sai thì **Sửa lại**.
+5. Màn hình kết quả cho biết **còn lại tại vị trí đó** và **tổng còn trong kho**. Ông chủ / quản trị nhận thông báo ai đã lấy gì.
+
+> Không lấy được quá số đang có tại vị trí đó. Hai người cùng lấy một lúc: hệ thống xử lý lần lượt, không bao giờ âm kho.
+
+## E2d. Nhập hàng (mọi người)
+Menu **Nhập hàng** (hoặc trong trang mặt hàng bấm **Nhập thêm hàng này** — dòng đầu được điền sẵn).
+1. **Thông tin phiếu**: ngày nhập (mặc định hôm nay), nhà cung cấp, số hoá đơn, ghi chú — đều không bắt buộc.
+2. Mỗi **dòng**: gõ tên/mã để chọn **mặt hàng** → chọn **vị trí cất** (các vị trí đang chứa hàng đó hiện đầu danh sách, đã chọn sẵn chỗ nhiều nhất) → **số lượng**.
+3. **Thêm dòng hàng** cho mặt hàng khác. **Bỏ dòng** để xoá.
+4. Bấm **Kiểm tra & nhập kho** → xem lại danh sách → **Xác nhận nhập kho**. Thành công sẽ hiện **số phiếu** (vd `PN261129-00012`).
+
+> Nếu 1 dòng sai (vd nhập 1,5 cho hàng tính theo cái), **cả phiếu không được lưu** và hệ thống báo "Dòng N: …" để sửa — không bao giờ nhập dở dang.
+
+## E2e. Chuyển vị trí & kiểm kê
+- **Chuyển** (mọi người): ở dòng vị trí → chọn vị trí đến (vd chuyển từ Kho 2 về Kho 1) → số lượng → **Xác nhận chuyển**.
+- **Kiểm kê** (ông chủ, quản trị): ở dòng vị trí → nhập **số đếm thực tế** → hệ thống báo thừa/thiếu → ghi **lý do** (bắt buộc) → **Lưu số kiểm kê**. Tìm thấy hàng ở chỗ chưa ghi: **Kiểm kê ở vị trí khác**.
+
 ## E3. Thêm / sửa mặt hàng (ông chủ, quản trị)
 
 **Tìm hàng → Thêm mặt hàng**, hoặc trong trang mặt hàng bấm **Sửa mặt hàng**. Form có 5 phần; **chỉ phần 1 là bắt buộc**:
@@ -168,6 +193,8 @@ Menu **Tìm hàng**.
 | 3. Kích thước & khối lượng | Dài × rộng × cao (mm), nặng (gam) của **1 đơn vị** | 78 × 24 mm |
 | 4. Hình ảnh | **Chọn ảnh từ máy** hoặc **Chụp ảnh** (điện thoại). Tối đa 8 ảnh, ảnh viền xanh là ảnh chính; **Đặt chính**, ← → để đổi thứ tự, 🗑 để bỏ | Ảnh sản phẩm, ảnh phiếu thông số |
 | 5. Mô tả & quản lý | Mô tả chi tiết, **tồn tối thiểu** (để báo sắp hết), ghi chú nội bộ | Tồn tối thiểu 5 |
+
+> Hàng có **thông số lạ** không có ô sẵn (vd "Kích thước lục giác", "Số vòng ren")? Ở phần 2 bấm **Thêm thông số khác** → ghi Tên – Giá trị; hoặc ghi vào **Mô tả**. Cả hai đều tìm kiếm được.
 
 Bấm **Lưu mặt hàng** (thanh dưới cùng). Bấm **Huỷ** sẽ bỏ cả ảnh vừa tải.
 

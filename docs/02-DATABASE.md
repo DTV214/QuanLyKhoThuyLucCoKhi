@@ -60,6 +60,11 @@ Mã lỗi: `42501` không có quyền · `P0001` không đủ hàng · `P0002` k
 - `f_norm(text)`: bỏ dấu + `Φ/Ø → phi` → tìm "phi8" ra "Φ8".
 - `fn_search_products` thêm tham số: `p_country_id`, `p_media`, `p_temperature`, `p_connection`, `p_in_stock`; trả thêm thông số + `total_count`.
 
+## Nghiệp vụ kho (migration 006)
+- `products.extra_specs jsonb` — "Thông số khác" [{label, value}] ≤ 30, có trong chuỗi tìm kiếm.
+- `fn_create_receipt(p_lines, p_date?, p_supplier_id?, p_reference_no?, p_note?)` — tạo phiếu `PN…` + gọi `fn_stock_in` từng dòng trong 1 giao dịch; lỗi dòng N → "Dòng N: …" và huỷ cả phiếu; báo quản lý.
+- Trigger `stock_movements_date` + `fn_check_date`: ngày nhập/xuất không sau hôm nay, không cũ hơn 1 năm.
+
 ## RLS tóm tắt
 - Danh mục + mặt hàng + tồn kho: ai đang `active` đều **xem**; chỉ owner/admin **thêm/sửa**; chỉ owner **xoá**.
 - `inventory`, `stock_movements`, `audit_logs`: client **không có quyền ghi** (đã `revoke`).

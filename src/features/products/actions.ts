@@ -82,6 +82,7 @@ export async function saveProduct(input: unknown): Promise<ActionResult<{ id: st
     weight_g: v.weightG,
     min_stock: v.minStock,
     specs,
+    extra_specs: v.extraSpecs,
     images: v.images,
     description: v.description,
     note: v.note,

@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
-import { ArrowLeft, MapPin, Pencil } from "lucide-react";
+import { ArrowLeft, Pencil } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { StockPanel } from "@/features/inventory";
+import { getLocationOptions } from "@/features/inventory/queries";
 import { connectionText, dimsText, ProductGallery, ProductStatusButton, tempText, weightText } from "@/features/products";
 import { getProduct } from "@/features/products/queries";
 import { formatDateTime } from "@/lib/date";
 import { formatQty } from "@/lib/format";
 import { isManager } from "@/lib/roles";
-import { cn } from "@/lib/utils";
 import { requireUser } from "@/server/auth/guard";
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
@@ -20,11 +21,10 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
 export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
   const user = await requireUser();
-  const p = await getProduct((await params).id);
+  const [p, locations] = await Promise.all([getProduct((await params).id), getLocationOptions()]);
   if (!p) notFound();
   const canEdit = isManager(user.role);
   const unit = p.unitName.toLowerCase();
-  const low = p.minStock > 0 && p.totalQuantity <= p.minStock;
 
   const rows: [string, React.ReactNode][] = [
     ["Loại hàng", p.categoryName],
@@ -50,6 +50,7 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
       const val = p.specs[f.key];
       return [f.unit ? `${f.label} (${f.unit})` : f.label, val === undefined || val === "" ? null : String(val)];
     }),
+    ...p.extraSpecs.map((e): [string, React.ReactNode] => [e.label, e.value]),
     ["Kích thước (D × R × C)", dimsText(p.lengthMm, p.widthMm, p.heightMm)],
     ["Khối lượng / 1 " + unit, weightText(p.weightG)],
     ["Mã của hãng", p.partNumber],
@@ -75,39 +76,14 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
             <p className="font-mono text-base text-muted-foreground">Mã: {p.sku}</p>
           </div>
 
-          {/* Tồn kho */}
-          <Card className={cn(low && "border-amber-300")}>
-            <CardHeader className="pb-2">
-              <CardTitle className="flex flex-wrap items-baseline gap-x-3 text-xl">
-                Tồn kho:
-                <span className={cn("text-3xl", p.totalQuantity === 0 ? "text-destructive" : low ? "text-amber-700" : "text-emerald-700")}>
-                  {formatQty(p.totalQuantity)} {unit}
-                </span>
-                {low && <span className="text-base font-medium text-amber-700">Sắp hết (tối thiểu {formatQty(p.minStock)})</span>}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              {p.stock.length === 0 ? (
-                <p className="text-muted-foreground">Chưa có hàng trong kho. Nhập hàng ở menu “Nhập hàng” (giai đoạn 5).</p>
-              ) : (
-                <ul className="grid gap-2 sm:grid-cols-2">
-                  {p.stock.map((s) => (
-                    <li key={s.location_id} className="flex items-center justify-between gap-3 rounded-xl border p-3">
-                      <span className="min-w-0">
-                        <span className="flex items-center gap-1.5 font-mono text-lg font-bold text-primary">
-                          <MapPin className="size-4" /> {s.code}
-                        </span>
-                        <span className="block truncate text-sm text-muted-foreground">
-                          {s.warehouse} › {s.zone} › Kệ {s.rack} › Tầng {s.level}
-                        </span>
-                      </span>
-                      <span className="shrink-0 text-lg font-semibold">{formatQty(s.quantity)}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </CardContent>
-          </Card>
+          <StockPanel
+            product={{ id: p.id, name: p.name, sku: p.sku, unitName: p.unitName, allowDecimal: p.allowDecimal }}
+            stock={p.stock}
+            minStock={p.minStock}
+            locations={locations}
+            canAdjust={canEdit}
+            active={p.isActive}
+          />
 
           {canEdit && (
             <div className="grid gap-2 sm:flex sm:flex-wrap">

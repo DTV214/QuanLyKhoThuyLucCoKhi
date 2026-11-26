@@ -3,7 +3,7 @@
  * Điện thoại (< 640px): hộp thoại phủ toàn màn hình, nút chính dính đáy.
  */
 export const DIALOG_MOBILE_FULL =
-  "max-sm:inset-0 max-sm:top-0 max-sm:left-0 max-sm:translate-x-0 max-sm:translate-y-0 max-sm:h-dvh max-sm:max-h-dvh max-sm:max-w-none max-sm:rounded-none max-sm:pb-0";
+  "max-sm:inset-0 max-sm:top-0 max-sm:left-0 max-sm:translate-x-0 max-sm:translate-y-0 max-sm:h-dvh max-sm:max-h-dvh max-sm:max-w-none max-sm:rounded-none max-sm:pb-0 max-sm:content-start [&_[data-slot=dialog-title]]:pr-10";
 
 /** Bọc nút Lưu/Xác nhận: dính đáy trên điện thoại để bàn phím không che */
 export const STICKY_ACTIONS =

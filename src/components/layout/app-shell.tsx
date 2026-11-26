@@ -1,6 +1,7 @@
 import { BottomNav, SideNav } from "@/components/layout/app-nav";
 import { Logo } from "@/components/layout/logo";
 import { UserMenu } from "@/components/layout/user-menu";
+import { QuickSearch } from "@/features/inventory";
 import type { CurrentUser } from "@/server/auth/guard";
 
 /**
@@ -21,7 +22,11 @@ export function AppShell({ user, children }: { user: CurrentUser; children: Reac
         <header className="sticky top-0 z-30 flex h-16 items-center justify-between gap-3 border-b bg-background/95 px-4 pt-[env(safe-area-inset-top)] backdrop-blur sm:px-6">
           <Logo className="min-w-0 lg:hidden [&_svg]:size-9" />
           <div className="hidden lg:block" />
-          <UserMenu user={user} />
+          {/* Chỉ 1 ô tìm nhanh (phím Ctrl+K gắn vào đây) */}
+          <div className="flex items-center gap-2">
+            <QuickSearch />
+            <UserMenu user={user} />
+          </div>
         </header>
         <main className="min-w-0 flex-1 px-4 pt-5 pb-[calc(6rem+env(safe-area-inset-bottom))] sm:px-6 sm:pt-6 lg:pb-10">
           {children}

@@ -9,14 +9,19 @@
 | 2 | Kho & Kệ, Danh mục | Sơ đồ kho, kệ, tầng; loại hàng + thông số riêng; hãng, vật liệu… | ✅ |
 | **2.5** | **Responsive toàn bộ** | Menu "Thêm" trên điện thoại, hộp thoại toàn màn hình + nút dính đáy, bảng → thẻ, hàng lọc cuộn ngang. Ảnh mốc: `docs/screenshots/` | ✅ |
 | 3 | Mặt hàng | Thêm/sửa mặt hàng, thông số động theo loại, ảnh Cloudinary, **kích thước & khối lượng** (chuẩn bị cho AI) | ✅ |
-| 4 | Tìm kiếm | ~~Ô tìm không dấu, bộ lọc~~ (đã làm sớm ở GĐ 3: môi chất, nhiệt độ, đầu nối, xuất xứ…). Còn: Ctrl+K, chip lọc nhanh, lưu bộ lọc hay dùng | 🔜 |
-| 5 | Nhập / lấy / chuyển / kiểm kê | Hộp xác nhận lấy hàng, phiếu nhập nhiều dòng | ⏳ |
-| 6 | Realtime & thông báo | Cập nhật tức thì, chuông thông báo, sắp hết hàng | ⏳ |
+| 4 | Tìm kiếm | Tìm không dấu + bộ lọc (GĐ 3), **tìm nhanh Ctrl+K** ở mọi trang, **nút lọc nhanh** (Kho 1/Kho 2, Còn hàng, Sắp hết) | ✅ |
+| 5 | Nhập / lấy / chuyển / kiểm kê | Lấy hàng 3 bước, phiếu nhập nhiều dòng (lỗi 1 dòng → huỷ cả phiếu), chuyển vị trí, kiểm kê (quản lý), chặn ngày tương lai. Thêm "Thông số khác" cho mặt hàng | ✅ |
+| 6 | Realtime & thông báo | Cập nhật tức thì, chuông thông báo, sắp hết hàng | 🔜 |
 | 7 | Dashboard & báo cáo | Biểu đồ, lịch sử, xuất Excel | ⏳ |
 | **8** | **Trợ lý AI** | Hộp chat hỏi đáp (xem mục AI) | ⏳ sau khi GĐ 3–7 xong |
 | 9 | (Tuỳ chọn) QR | In nhãn QR cho kệ, quét để mở vị trí | ⏳ |
 
 Mỗi giai đoạn từ nay **phải đạt chuẩn responsive (mục R) trước khi coi là xong**.
+
+### Ghi chú để cải thiện sau
+- **Thông số mặt hàng**: không thêm cột riêng cho từng loại thông số lạ nữa — dùng mục **Thông số khác** (tên – giá trị) hoặc **Mô tả**; cả hai đều tìm kiếm được.
+- **Phân loại tuỳ chỉnh** (vd thêm "Ống dầu", "Ống thép" để lọc): hiện đã làm được qua Danh mục → Loại hàng (đặt "Thuộc loại" = Ống; lọc theo "Ống" tự gồm các loại con). Sẽ rà lại và cải thiện cách lọc nhiều cấp, thẻ (tag) tự do sau.
+- **Phiếu xuất nhiều dòng** (lấy nhiều mặt hàng 1 lần cho 1 công trình): chưa làm, hiện lấy từng mặt hàng.
 
 ---
 
