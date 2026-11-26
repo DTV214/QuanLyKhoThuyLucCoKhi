@@ -21,3 +21,4 @@ Web app nội bộ quản lý kho linh kiện thủy lực, khí nén, cơ khí 
 - `docs/04-API.md` — Server Actions
 - `docs/05-HUONG-DAN-NODEJS.md` — Node.js cho người mới
 - `docs/06-HUONG-DAN-SU-DUNG.md` — **hướng dẫn cài đặt, đăng nhập và thao tác**
+- `docs/07-LO-TRINH.md` — lộ trình, chuẩn responsive, kế hoạch trợ lý AI

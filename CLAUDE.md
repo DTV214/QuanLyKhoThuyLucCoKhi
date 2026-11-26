@@ -3,7 +3,7 @@
 Web app nội bộ quản lý kho linh kiện thủy lực / khí nén / cơ khí (ống, co nối, hạt bắp, con tán, van…).
 2 kho: **Kho 1 – Trong nhà** (`K1`) và **Kho 2 – Kho lớn** (`K2`). Người dùng chính là người lớn tuổi → **đơn giản trước, đẹp sau**.
 
-Đọc thêm trước khi code: `docs/00-TONG-QUAN.md` → `docs/01-KIEN-TRUC.md` → `docs/02-DATABASE.md` → `docs/03-PHAN-QUYEN.md`.
+Đọc thêm trước khi code: `docs/00-TONG-QUAN.md` → `docs/01-KIEN-TRUC.md` → `docs/02-DATABASE.md` → `docs/03-PHAN-QUYEN.md`. Lộ trình & việc tiếp theo: `docs/07-LO-TRINH.md`.
 
 ## Công nghệ
 - Next.js 15 App Router + TypeScript (strict). BE = Server Actions + Route Handlers chạy Node.js trong cùng project.
@@ -39,6 +39,8 @@ docs/            tài liệu cho người và cho AI
 8. Ngày nhập/xuất mặc định **hôm nay** (`todayISO()` trong `src/lib/date.ts`, múi giờ Asia/Ho_Chi_Minh).
 9. Số lượng là `numeric(14,3)` (ống tính theo mét có lẻ); hiển thị bằng `formatQty()`.
 10. Server Action trả về `ActionResult<T>` (`src/lib/action-result.ts`), không throw lỗi ra client.
+11. **Responsive là điều kiện xong** của mọi trang: kiểm tra 375px / 768px / 1280px theo mục R trong `docs/07-LO-TRINH.md` (không cuộn ngang, bảng → thẻ dưới 768px, vùng chạm ≥ 44px, hộp thoại vừa màn hình điện thoại).
+12. Trợ lý AI (GĐ 8) chỉ có tool **đọc**; mọi câu trả lời kỹ thuật kèm dòng lưu ý "thông tin do AI viết, kiểm tra catalogue/Google".
 
 ## Màu & thương hiệu
 - Tên hiển thị: **Kho Công ty Thành Danh VMC**. Logo: `src/components/layout/logo.tsx`.
