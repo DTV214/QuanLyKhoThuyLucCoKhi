@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRightLeft, ClipboardCheck, MapPin, PackageMinus, PackagePlus } from "lucide-react";
+import { ArrowRightLeft, ClipboardCheck, History, MapPin, PackageMinus, PackagePlus } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -99,6 +99,11 @@ export function StockPanel({
             <Button asChild size="xl" variant={stock.length ? "outline" : "default"}>
               <Link href={`/nhap-hang?sp=${product.id}`}>
                 <PackagePlus /> Nhập thêm hàng này
+              </Link>
+            </Button>
+            <Button asChild size="xl" variant="ghost">
+              <Link href={`/lich-su?sp=${product.id}`}>
+                <History /> Lịch sử mặt hàng này
               </Link>
             </Button>
             {canAdjust && (
